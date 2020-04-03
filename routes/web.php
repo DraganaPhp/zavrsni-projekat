@@ -13,10 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/blogs/single/{blog}', 'BlogsController@single')->name('front.blogs.single');
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/contact-us', 'ContactController@index')->name('front.contact.index');
+Route::post('/contact-us/send-message', 'ContactController@sendMessage')->name('front.contact.send_message');
