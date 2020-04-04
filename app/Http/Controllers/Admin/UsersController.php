@@ -111,7 +111,7 @@ class UsersController extends Controller {
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'name' => ['required', 'string', 'min:4', 'max:255'],
             'phone' => ['nullable', 'string', 'min:9', 'max:13'],
-            'photo' => ['nullable', 'file', 'image'],
+            'photo' => ['required', 'file', 'image'],
                 ]
         );
 
@@ -151,7 +151,7 @@ class UsersController extends Controller {
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'phone' => ['nullable', 'string', 'min:9', 'max:13'],
-            'photo' => ['nullable', 'file', 'image'],
+            'photo' => ['required', 'file', 'image'],
         ]);
 
         $user->fill($formData);

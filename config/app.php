@@ -57,7 +57,7 @@ return [
       | ahead and set this to a sensible default for you out of the box.
       |
      */
-    'timezone' => 'Europe/Belgrade',
+    'timezone' => 'Europe/Berlin',
     /*
       |--------------------------------------------------------------------------
       | Application Locale Configuration
