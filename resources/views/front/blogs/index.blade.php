@@ -6,4 +6,4 @@
 
 Ovo je blog index!
 
- @endsection
+@endsection
