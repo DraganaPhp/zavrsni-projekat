@@ -116,32 +116,7 @@
 </section>
 <!-- /.content -->
 
-<form class="modal fade" id="delete-modal" action="{{route('admin.users.delete')}}" method="post">
-    @csrf
-    <input type="hidden" name="id" value="">
 
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Delete User</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure you want to delete user?</p>
-                <strong data-container="name"></strong>
-
-            </div>
-            <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-danger">Delete</button>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</form>
 <!-- /.modal -->
 <form class="modal fade" id="disable-modal" action="{{route('admin.users.disable_status')}}" method="post">
     @csrf
@@ -258,7 +233,7 @@
             {"name": "name", "data": "name"},
             {"name": "phone", "data": "phone"},
             {"name": "created_at", "data": "created_at", "className": "text-center"},
-            //{"name": "actions", "data": "actions", "orderable": false, "searchable": false, "className": "text-center"}
+            {"name": "actions", "data": "actions", "orderable": false, "searchable": false, "className": "text-center"}
         ]
     });
 
@@ -292,7 +267,7 @@
         $(this).modal('hide');
 
         $.ajax({
-            "url": $(this).attr('action'), //citanje action atributa sa forme
+            "url": $(this).attr('action'), //citanje actio atributa sa forme
             "type": "post",
             "data": $(this).serialize() //citanje svih polja na formi  tj sve sto ima "name" atribut
         }).done(function (response) {
@@ -356,46 +331,6 @@
         });
     });
 
-    $('#entities-list-table').on('click', '[data-action="delete"]', function (e) {
-        //e.stopPropagation();
-        //e.preventDefault();
-
-        //let id = $(this).data('id');
-        let id = $(this).attr('data-id');
-        let name = $(this).attr('data-name');
-
-        $('#delete-modal [name="id"]').val(id);
-        $('#delete-modal [data-container="name"]').html(name);
-    });
-
-    $('#delete-modal').on('submit', function (e) {
-        e.preventDefault();
-
-        $(this).modal('hide');
-
-        $.ajax({
-            "url": $(this).attr('action'), //citanje actio atributa sa forme
-            "type": "post",
-            "data": $(this).serialize() //citanje svih polja na formi  tj sve sto ima "name" atribut
-        }).done(function (response) {
-
-            toastr.success(response.system_message);
-
-            // da refreshujemo datatables!!!
-
-            entitiesDataTable.ajax.reload(null, false);//drugi parametar false zaci da se NE RESETUJE paginacija
-
-        }).fail(function (xhr) {
-
-            let systemError = "@lang('Error occured while deleting user')";
-
-            if (xhr.responseJSON && xhr.responseJSON['system_error']) {
-                systemError = xhr.responseJSON['system_error'];
-            }
-
-            toastr.error(systemError);
-        });
-    });
 
 </script>
 @endpush

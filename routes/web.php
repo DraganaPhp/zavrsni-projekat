@@ -39,7 +39,8 @@ Route::middleware('auth')->prefix('/admin')->namespace('Admin')->group(function 
     Route::get('/', 'IndexController@index')->name('admin.index.index');
 
 
-   Route::prefix('/users')->group(function () {
+   //Routes for UsersController
+    Route::prefix('/users')->group(function () {
 
         Route::get('/', 'UsersController@index')->name('admin.users.index'); // /admin/sizes
         Route::get('/add', 'UsersController@add')->name('admin.users.add');

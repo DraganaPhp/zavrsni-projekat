@@ -45,6 +45,9 @@ class UsersController extends Controller {
                 ->editColumn('name', function ($user) {
                     return '<strong>' . e($user->name) . '</strong>';
                 })
+                ->editColumn('created_at', function ($user) {
+                    return $user->created_at->format('Y-m-d');
+                })
                 ->editColumn('status', function ($user) {
 
                     if ($user->status == 1) {
@@ -55,11 +58,11 @@ class UsersController extends Controller {
                 });
 
 
-        $dataTable->rawColumns(['status', 'name', 'photo', 'actions']);
+        $dataTable->rawColumns(['status', 'name', 'photo', 'actions' . 'created_at']);
 
-       /*  $dataTable->filter(function ($query) use ($request, $searchFilters) {
+        $dataTable->filter(function ($query) use ($request, $searchFilters) {
 
-           if (
+            if (
                     $request->has('search') && is_array($request->get('search')) && isset($request->get('search')['value'])
             ) {
                 $searchTerm = $request->get('search')['value'];
@@ -68,8 +71,8 @@ class UsersController extends Controller {
 
                     $query->orWhere('users.name', 'LIKE', '%' . $searchTerm . '%')
                             ->orWhere('users.email', 'LIKE', '%' . $searchTerm . '%')
-                            ->orWhere('users.phone', 'LIKE', '%' . $searchTerm . '%')
-                            ->orWhere('user.status', 'LIKE', '%' . $searchTerm . '%')
+                            ->orWhere('brands.phone', 'LIKE', '%' . $searchTerm . '%')
+                            ->orWhere('user_status', 'LIKE', '%' . $searchTerm . '%')
                             ->orWhere('users.id', '=', $searchTerm);
                 });
             }
@@ -92,11 +95,8 @@ class UsersController extends Controller {
             }
         });
 
-        return $dataTable->make(true);*/
-    
-   
-        }
-    
+        return $dataTable->make(true);
+    }
 
     public function add(Request $request) {
 
@@ -164,29 +164,6 @@ class UsersController extends Controller {
         session()->flash('system_message', __('User has been saved!'));
 
         return redirect()->route('admin.users.index');
-    }
-
-    public function delete(Request $request) {
-        $formData = $request->validate([
-            'id' => ['required', 'numeric', 'exists:users,id'],
-        ]);
-
-        $formData['id'];
-        $user = User::findOrFail($formData['id']);
-
-        if ($formData['id'] == \Auth::user()->id) {
-            return response()->json([
-                        'system_error' => __('You are not allowed to delete your account'),
-                            ], 403);
-        }
-
-        $user->delete();
-
-        $user->deletePhoto();
-
-        return response()->json([
-                    'system_message' => __('User has been deleted')
-        ]);
     }
 
     public function enableStatus(Request $request) {

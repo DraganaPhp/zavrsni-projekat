@@ -29,17 +29,7 @@
         <i class="fas fa-check"></i>
     </button>
     @endif
-    <button 
-        type="button" 
-        class="btn btn-info" 
-        data-toggle="modal" 
-        data-target="#delete-modal"
-        data-action="delete"
-        data-id="{{$user->id}}"
-        data-name="{{$user->name}}"
-        >
-        <i class="fas fa-trash"></i>
-    </button>
+
     @else
     It is your account!!!
     @endif

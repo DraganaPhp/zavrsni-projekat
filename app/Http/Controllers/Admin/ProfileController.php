@@ -7,112 +7,105 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\User;
 
-class ProfileController extends Controller
-{
+class ProfileController extends Controller {
 
-	public function edit(Request $request)
-	{
-		$user = \Auth::user();
+    public function edit(Request $request) {
+        $user = \Auth::user();
 
-		return view('admin.profile.edit', [
-			'user' => $user,
-		]);
-	}
+        return view('admin.profile.edit', [
+            'user' => $user,
+        ]);
+    }
 
-	public function update(Request $request)
-	{
-		$user = \Auth::user();
+    public function update(Request $request) {
+        $user = \Auth::user();
 
-		$formData = $request->validate([
-			'name'	 => ['required', 'string', 'max:255'],
-			'phone'	 => ['nullable', 'string', 'max:255'],
-			'photo'	 => ['nullable', 'file', 'image'],
-		]);
+        $formData = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'phone' => ['nullable', 'string', 'max:255'],
+            'photo' => ['nullable', 'file', 'image'],
+        ]);
 
-		$user->fill($formData);
+        $user->fill($formData);
 
-		$user->save();
+        $user->save();
 
-		$this->handlePhotoUpload($request, $user);
+        $this->handlePhotoUpload($request, $user);
 
-		session()->flash('system_message', __('Your profile has been saved!'));
+        session()->flash('system_message', __('Your profile has been saved!'));
 
-		return redirect()->route('admin.profile.edit');
-	}
+        return redirect()->route('admin.profile.edit');
+    }
 
-	public function deletePhoto(Request $request)
-	{
-		$user = \Auth::user();
+    public function deletePhoto(Request $request) {
+        $user = \Auth::user();
 
-		$user->deletePhoto();
+        $user->deletePhoto();
 
-		//reset kolone photo1 ili photo2 na null
-		//da izbrisemo podatak u bazi o povezanoj fotografiji
-		$user->photo = null;
-		$user->save();
+        //reset kolone photo1 ili photo2 na null
+        //da izbrisemo podatak u bazi o povezanoj fotografiji
+        $user->photo = null;
+        $user->save();
 
-		return response()->json([
-				'system_message' => __('Photo has been deleted'),
-				'photo_url'		 => $user->getPhotoUrl(),
-		]);
-	}
+        return response()->json([
+                    'system_message' => __('Photo has been deleted'),
+                    'photo_url' => $user->getPhotoUrl(),
+        ]);
+    }
 
-	public function changePassword(Request $request)
-	{
-		return view('admin.profile.change_password', [
-		]);
-	}
+    public function changePassword(Request $request) {
+        return view('admin.profile.change_password', [
+        ]);
+    }
 
-	public function changePasswordConfirm(Request $request)
-	{
-		$user = \Auth::user();
+    public function changePasswordConfirm(Request $request) {
+        $user = \Auth::user();
 
-		$formData = $request->validate([
-			'old_password' => [
-				'required',
-				function ($attribute, $value, $fail) use ($user) {
-					if (!\Hash::check($value, $user->password)) {
-						
-						$fail('Your old password is not correct');
-					}
-				}
-			],
-			'new_password'			 => ['required', 'string', 'min:8'],
-			'new_password_confirm'	 => ['required', 'same:new_password'],
-		]);
-		
-			
-		$user->password = \Hash::make($formData['new_password']);
-		$user->save();
+        $formData = $request->validate([
+            'old_password' => [
+                'required',
+                function ($attribute, $value, $fail) use ($user) {
+                    if (!\Hash::check($value, $user->password)) {
 
-		session()->flash('system_message', __('Your password has been changed'));
-		return redirect()->route('admin.profile.edit');
-	}
-
-	protected function handlePhotoUpload(Request $request, User $user)
-	{
-		if ($request->hasFile('photo')) {
+                        $fail('Your old password is not correct');
+                    }
+                }
+            ],
+            'new_password' => ['required', 'string', 'min:8'],
+            'new_password_confirm' => ['required', 'same:new_password'],
+        ]);
 
 
-			$user->deletePhoto();
+        $user->password = \Hash::make($formData['new_password']);
+        $user->save();
 
-			$photoFile = $request->file('photo');
+        session()->flash('system_message', __('Your password has been changed'));
+        return redirect()->route('admin.profile.edit');
+    }
 
-			$newPhotoFileName = $user->id . '_' . $photoFile->getClientOriginalName();
+    protected function handlePhotoUpload(Request $request, User $user) {
+        if ($request->hasFile('photo')) {
 
-			$photoFile->move(
-				public_path('/storage/users/'), $newPhotoFileName
-			);
 
-			$user->photo = $newPhotoFileName;
+            $user->deletePhoto();
 
-			$user->save();
+            $photoFile = $request->file('photo');
 
-			//originalna slika
-			\Image::make(public_path('/storage/users/' . $user->photo))
-				->fit(300, 300)
-				->save();
-		}
-	}
+            $newPhotoFileName = $user->id . '_' . $photoFile->getClientOriginalName();
+
+            $photoFile->move(
+                    public_path('/storage/users/'), $newPhotoFileName
+            );
+
+            $user->photo = $newPhotoFileName;
+
+            $user->save();
+
+            //originalna slika
+            \Image::make(public_path('/storage/users/' . $user->photo))
+                    ->fit(50, 50)
+                    ->save();
+        }
+    }
 
 }

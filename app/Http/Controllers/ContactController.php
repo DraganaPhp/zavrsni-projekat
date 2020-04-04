@@ -5,18 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Mail\ContactFormMail;
 
-class ContactController extends Controller
-{
+class ContactController extends Controller {
+
     public function index(Request $request) {
 
-  $systemMessage = session()->pull('system_message');
+        $systemMessage = session()->pull('system_message');
 
         return view('front.contact.index', [
             'systemMessage' => $systemMessage,
         ]);
     }
-    
-     public function sendMessage(Request $request) {
+
+    public function sendMessage(Request $request) {
 
 
 
@@ -41,4 +41,5 @@ class ContactController extends Controller
         );
         return redirect()->back();
     }
+
 }

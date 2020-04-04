@@ -2,16 +2,15 @@
 
 use Illuminate\Database\Seeder;
 
-class UsersTableSeeder extends Seeder
-{
+class UsersTableSeeder extends Seeder {
+
     /**
      * Run the database seeds.
      *
      * @return void
      */
-    public function run()
-    {
-         \DB::table('users')->truncate();
+    public function run() {
+        \DB::table('users')->truncate();
 
         \DB::table('users')->insert([
             'status' => '1',
@@ -45,7 +44,7 @@ class UsersTableSeeder extends Seeder
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
-        
+
         \DB::table('users')->insert([
             'name' => 'Miki Mikic',
             'email' => 'miki.mikic@gmail.com',
@@ -54,5 +53,5 @@ class UsersTableSeeder extends Seeder
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
     }
-    
+
 }
