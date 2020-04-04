@@ -1,4 +1,9 @@
- <form action="{{route('front.contact.send_message')}}" method="post" role="form" id='main_contact_form' class="commenting-form">
+@push('head_scripts')
+{!! htmlScriptTagJsApi() !!}
+@endpush
+
+
+<form action="{{route('front.contact.send_message')}}" method="post" role="form" id='main_contact_form' class="commenting-form">
     @csrf
               <div class="row">
                 <div class="form-group col-md-6">
@@ -33,7 +38,15 @@
             >{{old('contact_message')}}</textarea>
         @include('front._layout.partials.form_errors', ['fieldName'=>'contact_message'])
                 </div>
-            
+            <div class="form-group">
+        <label for="Captcha">Please confirm that you are not robot</label>
+        {!! htmlFormSnippet() !!}
+        @error('g-recaptcha-response')
+        <span class='invalid-feedback' role='alert' style='display: block'>
+            <strong>{{$message}}</strong>
+        </span>
+        @enderror
+    </div>
                 <div class="form-group col-md-12">
                   <button type="submit" class="btn btn-secondary">Submit Your Message</button>
                 </div>

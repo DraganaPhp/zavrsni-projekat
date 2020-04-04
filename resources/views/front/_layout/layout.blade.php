@@ -32,6 +32,10 @@
     <!-- owl carousel 2 stylesheet-->
     <link rel="stylesheet" href="{{url('/themes/front/plugins/owl-carousel2/assets/owl.carousel.min.css')}}" id="theme-stylesheet">
     <link rel="stylesheet" href="{{url('/themes/front/plugins/owl-carousel2/assets/owl.theme.default.min.css')}}" id="theme-stylesheet">
+    {!! htmlScriptTagJsApi([
+            'action' => 'homepage',
+            'custom_validation' => 'myCustomValidation'
+        ]) !!}
   </head>
   <body>
     <header class="header">
