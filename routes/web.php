@@ -3,15 +3,15 @@
 use Illuminate\Support\Facades\Route;
 
 /*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+  |--------------------------------------------------------------------------
+  | Web Routes
+  |--------------------------------------------------------------------------
+  |
+  | Here is where you can register web routes for your application. These
+  | routes are loaded by the RouteServiceProvider within a group which
+  | contains the "web" middleware group. Now create something great!
+  |
+ */
 
 
 Route::get('/', 'IndexController@index')->name('front.index.index');
@@ -39,7 +39,7 @@ Route::middleware('auth')->prefix('/admin')->namespace('Admin')->group(function 
     Route::get('/', 'IndexController@index')->name('admin.index.index');
 
 
-   //Routes for UsersController
+    //Routes for UsersController
     Route::prefix('/users')->group(function () {
 
         Route::get('/', 'UsersController@index')->name('admin.users.index'); // /admin/sizes
@@ -66,5 +66,20 @@ Route::middleware('auth')->prefix('/admin')->namespace('Admin')->group(function 
 
         Route::get('/change-password', 'ProfileController@changePassword')->name('admin.profile.change_password');
         Route::post('/change-password', 'ProfileController@changePasswordConfirm')->name('admin.profile.change_password_confirm');
+    });
+
+
+    //Routes for SizesController
+    Route::prefix('/tags')->group(function () {
+
+        Route::get('/', 'TagsController@index')->name('admin.tags.index'); // /admin/tags
+        Route::get('/add', 'TagsController@add')->name('admin.tags.add');
+        Route::post('/insert', 'TagsController@insert')->name('admin.tags.insert');
+
+        Route::get('/edit/{tag}', 'TagsController@edit')->name('admin.tags.edit');
+        Route::post('/update/{tag}', 'TagsController@update')->name('admin.tags.update');
+
+        Route::post('/delete', 'TagsController@delete')->name('admin.tags.delete');
+        Route::post('/change-priorities', 'TagsController@changePriorities')->name('admin.tags.change_priorities');
     });
 });
