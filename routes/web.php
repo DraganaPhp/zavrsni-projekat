@@ -82,4 +82,37 @@ Route::middleware('auth')->prefix('/admin')->namespace('Admin')->group(function 
         Route::post('/delete', 'TagsController@delete')->name('admin.tags.delete');
         Route::post('/change-priorities', 'TagsController@changePriorities')->name('admin.tags.change_priorities');
     });
+
+
+
+    //Routes for BlogPostCategoriesController
+    Route::prefix('/blog-post-categories')->group(function () {
+
+        Route::get('/', 'BlogPostCategoriesController@index')->name('admin.blog_post_categories.index'); // /admin/sizes
+        Route::get('/add', 'BlogPostCategoriesController@add')->name('admin.blog_post_categories.add');
+        Route::post('/insert', 'BlogPostCategoriesController@insert')->name('admin.blog_post_categories.insert');
+
+        Route::get('/edit/{blogPostCategory}', 'BlogPostCategoriesController@edit')->name('admin.blog_post_categories.edit');
+        Route::post('/update/{blogPostCategory}', 'BlogPostCategoriesController@update')->name('admin.blog_post_categories.update');
+
+        Route::post('/delete', 'BlogPostCategoriesController@delete')->name('admin.blog_post_categories.delete');
+        Route::post('/change-priorities', 'BlogPostCategoriesController@changePriorities')->name('admin.blog_post_categories.change_priorities');
+    });
+
+    //Routes for BlogPostsController
+    Route::prefix('/blog-posts')->group(function () {
+
+        Route::get('/', 'BlogPostsController@index')->name('admin.blog_posts.index');
+        Route::get('/add', 'BlogPostsController@add')->name('admin.blog_posts.add');
+        Route::post('/insert', 'BlogPostsController@insert')->name('admin.blog_posts.insert');
+
+        Route::get('/edit/{blogPost}', 'BlogPostsController@edit')->name('admin.blog_posts.edit');
+        Route::post('/update/{blogPost}', 'BlogPostsController@update')->name('admin.blog_posts.update');
+
+        Route::post('/delete', 'BlogPostsController@delete')->name('admin.blog_posts.delete');
+        Route::post('/disable', 'BlogPostsController@disable')->name('admin.blog_posts.disable');
+        Route::post('/enable', 'BlogPostsController@enable')->name('admin.blog_posts.enable');
+        Route::post('/delete-photo/{BlogPost}', 'BlogPostsController@deletePhoto')->name('admin.blog_posts.delete_photo');
+        Route::post('/datatable', 'BlogPostsController@datatable')->name('admin.blog_posts.datatable');
+    });
 });

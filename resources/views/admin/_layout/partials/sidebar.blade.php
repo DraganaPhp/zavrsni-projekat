@@ -61,6 +61,52 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon far fa-plus-square"></i>
+                        <p>
+                            @lang('Blog posts Categories')
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('admin.blog_post_categories.index')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>@lang('Blog post Categories list')</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('admin.blog_post_categories.add')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>@lang('Add Blog post Category')</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon far fa-plus-square"></i>
+                        <p>
+                            @lang('Blog Posts')
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('admin.blog_posts.index')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>@lang('Blog Posts list')</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('admin.blog_posts.add')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>@lang('Add Blog Post')</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

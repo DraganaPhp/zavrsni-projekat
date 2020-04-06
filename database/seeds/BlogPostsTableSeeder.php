@@ -23,12 +23,14 @@ class BlogPostsTableSeeder extends Seeder {
         for ($i = 1; $i <= 100; $i++) {
             \DB::table('blog_posts')->insert([
                 'subject' => $faker->city(),
-                'body' => $faker->realtext(255),
-                'tag_id' => $tagIds->random(),
+                'body' => $faker->realtext(1500),
+                'description' => $faker->realtext(500),
                 'blog_post_category_id' => $blogPostCategoryIds->random(),
                 'user_id' => $userIds->random(),
                 'created_at' => $faker->dateTimeBetween($startDate = '-6 months', $endDate = 'now', $timezone = null),
                 'updated_at' => $faker->dateTimeBetween($startDate = '-6 months', $endDate = 'now', $timezone = null),
+                'comment_id' => rand(1, 256), // nije jedunstven broj, privremeno stavljeno, dok se ne napravi tabela za komentare
+                'views' => rand(0, 1024),
             ]);
         }
     }

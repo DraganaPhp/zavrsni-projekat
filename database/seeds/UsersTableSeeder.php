@@ -23,13 +23,6 @@ class UsersTableSeeder extends Seeder {
         ]);
 
         \DB::table('users')->insert([
-            'name' => 'Pera Peric',
-            'email' => 'pera.peric@gmail.com',
-            'password' => \Hash::make('cubesphp'),
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
-        ]);
-        \DB::table('users')->insert([
             'name' => 'Marko Markovic',
             'email' => 'marko.markovic@gmail.com',
             'password' => \Hash::make('cubesphp'),
@@ -48,6 +41,13 @@ class UsersTableSeeder extends Seeder {
         \DB::table('users')->insert([
             'name' => 'Miki Mikic',
             'email' => 'miki.mikic@gmail.com',
+            'password' => \Hash::make('cubesphp'),
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ]);
+        \DB::table('users')->insert([
+            'name' => 'Aleksandar Dimic',
+            'email' => 'aleksandar.dimic@cubes.rs',
             'password' => \Hash::make('cubesphp'),
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
