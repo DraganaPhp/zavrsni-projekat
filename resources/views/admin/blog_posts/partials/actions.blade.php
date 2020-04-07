@@ -13,7 +13,7 @@
         data-target="@if ($blogPost->status==1)#disable-modal @else #enable-modal @endif"
         data-action="change-featured"
         data-id="{{$blogPost->id}}"
-        data-name="{{$blogPost->name}}"
+        data-name="{{$blogPost->subject}}"
         >
         <i class="@if($blogPost->status==1)fas fa-minus-circle @else fas fa-check @endif"></i>
 
@@ -25,7 +25,7 @@
         data-target="@if ($blogPost->on_index_page==1)#unimportant-modal @else #important-modal @endif"
         data-action="change-importance"
         data-id="{{$blogPost->id}}"
-        data-name="{{$blogPost->name}}"
+        data-name="{{$blogPost->subject}}"
         >
         <i class="@if($blogPost->on_index_page==1)fas fa-eye-slash @else fas fa-eye @endif"></i>
 
@@ -37,7 +37,7 @@
         data-target="#delete-modal"
         data-action="delete"
         data-id="{{$blogPost->id}}"
-        data-name="{{$blogPost->name}}"
+        data-name="{{$blogPost->subject}}"
         >
         <i class="fas fa-trash"></i>
     </button>
