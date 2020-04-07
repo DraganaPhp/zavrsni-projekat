@@ -112,7 +112,9 @@ Route::middleware('auth')->prefix('/admin')->namespace('Admin')->group(function 
         Route::post('/delete', 'BlogPostsController@delete')->name('admin.blog_posts.delete');
         Route::post('/disable', 'BlogPostsController@disable')->name('admin.blog_posts.disable');
         Route::post('/enable', 'BlogPostsController@enable')->name('admin.blog_posts.enable');
-        Route::post('/delete-photo/{BlogPost}', 'BlogPostsController@deletePhoto')->name('admin.blog_posts.delete_photo');
+        Route::post('/make-unimportant', 'BlogPostsController@make_unimportant')->name('admin.blog_posts.make_unimportant');
+        Route::post('/make-important', 'BlogPostsController@make_important')->name('admin.blog_posts.make_important');
+        Route::post('/delete-photo/{blogPost}', 'BlogPostsController@deletePhoto')->name('admin.blog_posts.delete_photo');
         Route::post('/datatable', 'BlogPostsController@datatable')->name('admin.blog_posts.datatable');
     });
 });

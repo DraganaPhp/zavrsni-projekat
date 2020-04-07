@@ -1,4 +1,4 @@
 <img 
-    src="https://via.placeholder.com/400x600" 
+    src="{{$blogPost->getPhotoThumbUrl()}}" 
     style="max-width: 80px;"
     >

@@ -226,6 +226,69 @@
     </div>
     <!-- /.modal-dialog -->
 </form>
+
+<form class="modal fade" id="important-modal" action="{{route('admin.blog_posts.make_important')}}" method="post">
+    @csrf
+    <input type="text" name="id" value="">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"> Add importance to this blog</h4>
+                <button type="button" class="close add more" data-dismiss="modal" aria-label="Close" title='Change status of post'>
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to make this Blog Post important?</p>
+                <strong data-container="name"></strong>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-check"></i>
+                    Important
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</form>
+<form class="modal fade" id="unimportant-modal" action="{{route('admin.blog_posts.make_unimportant')}}" method="post">
+    @csrf
+    <input type="hidden" name="id" value="">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Make Blog Post unimportant</h4>
+                <button 
+                    type="button" 
+                    class="close" 
+                    data-dismiss="modal" 
+                    aria-label="Close"
+
+                    >
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to make Blog Post unimportant?</p>
+                <strong data-container="name"></strong>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-minus-circle"></i>
+                    Unimportant
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+    <!-- /.modal -->
+</form>
 <!-- /.modal -->
 
 <!-- /.modal -->
@@ -279,7 +342,7 @@
         "order": [[6, 'desc']],
         "columns": [
             {"name": "id", "data": "id"},
-            {"name": "photo", "data": "subject", "orderable": false, "searchable": false, "className": "text-center"},
+            {"name": "photo", "data": "photo", "orderable": false, "searchable": false, "className": "text-center"},
             {"name": "status", "data": "status", "className": "text-center"},
             {"name": "on_index_page", "data": "on_index_page", "className": "text-center"},
             {"name": "blog_post_category_name", "data": "blog_post_category_name"},
@@ -358,7 +421,7 @@
             entitiesDataTable.ajax.reload(null, false);
 
         }).fail(function () {
-            toastr.error("@lang('Error occured while disabling blogPost')");
+            toastr.error("@lang('Error occured while disabling Blog Post')");
         });
     });
 
@@ -395,6 +458,75 @@
             toastr.error("@lang('Error occured while deleting blogPost')");
         });
     });
+    $('#entities-list-table').on('click', '[data-action="change-importance"]', function (e) {
+        //e.stopPropagation();
+        //e.preventDefault();
+
+        let id = $(this).attr('data-id');
+        let name = $(this).attr('data-name');
+
+        $('#unimportant-modal [name="id"]').val(id);
+        $('#unimportant-modal [data-container="name"]').html(name);
+    });
+
+    $('#entities-list-table').on('click', '[data-action="change-importance"]', function (e) {
+        //e.stopPropagation();
+        //e.preventDefault();
+
+        let id = $(this).attr('data-id');
+        let name = $(this).attr('data-name');
+
+        $('#important-modal [name="id"]').val(id);
+        $('#important-modal [data-container="name"]').html(name);
+    });
+
+
+
+
+
+    $('#important-modal').on('submit', function (e) {
+        e.preventDefault();
+
+        $(this).modal('hide');
+
+        $.ajax({
+            "url": $(this).attr('action'), //citanje actio atributa sa forme
+            "type": "post",
+            "data": $(this).serialize() //citanje svih polja na formi  tj sve sto ima "name" atribut
+        }).done(function (response) {
+
+            toastr.success(response.system_message);
+
+            // da refreshujemo datatables!!!
+
+            entitiesDataTable.ajax.reload(null, false);
+
+        }).fail(function () {
+            toastr.error("@lang('Error occured while making blog Post important')");
+        });
+    });
+    $('#unimportant-modal').on('submit', function (e) {
+        e.preventDefault();
+
+        $(this).modal('hide');
+
+        $.ajax({
+            "url": $(this).attr('action'), //citanje actio atributa sa forme
+            "type": "post",
+            "data": $(this).serialize() //citanje svih polja na formi  tj sve sto ima "name" atribut
+        }).done(function (response) {
+
+            toastr.success(response.system_message);
+
+            // da refreshujemo datatables!!!
+
+            entitiesDataTable.ajax.reload(null, false);
+
+        }).fail(function () {
+            toastr.error("@lang('Error occured while making Blog Post')");
+        });
+    });
+
 
 </script>
 @endpush

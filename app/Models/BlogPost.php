@@ -11,6 +11,8 @@ class BlogPost extends Model {
 
     const STATUS_ENABLED = 1;
     const STATUS_DISABLED = 0;
+    const INDEX_IMPORTANT = 1;
+    const INDEX_UNIMPORTANT = 0;
 
     protected $table = 'blog_posts';
     protected $fillable = [
@@ -52,4 +54,48 @@ class BlogPost extends Model {
         return $this->status == self::STATUS_DISABLED;
     }
 
+     public function getPhotoUrl() {
+        if ($this->photo) {
+            return url('/storage/blog_posts/' . $this->photo);
+        }
+        return url('/themes/front/img/blog-post-1.jpg');
+    }
+    
+    public function getPhotoThumbUrl() {
+        if ($this->photo) {
+            return url('/storage/blog_posts/thumbs/' . $this->photo);
+        }
+
+
+        return url('/themes/front/img/blog-post-1.jpg');
+    }
+    
+    public function deletePhoto() {
+        if (!$this->photo) {
+            return $this; //fluent interface
+        }
+
+        $photoFilePath = public_path('/storage/blog_posts/' . $this->photo);
+
+        if (!is_file($photoFilePath)) {
+            //informacija o fajlu postoji u bazi
+            //ali fajl e postoji fizicki na Hard Disku
+            return $this;
+        }
+
+        unlink($photoFilePath);
+
+        //brisanje thumb verzije
+
+        $photoThumbPath = public_path('/storage/blog_posts/thumbs/' . $this->photo);
+
+          if (!is_file($photoThumbPath)) {
+          //thumb slika ne postoji na disku
+          return $this;
+          }
+
+          unlink($photoThumbPath);
+
+        return $this;
+    }
 }

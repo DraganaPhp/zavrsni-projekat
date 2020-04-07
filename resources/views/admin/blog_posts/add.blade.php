@@ -173,7 +173,7 @@
 
                         <div class="card-footer">
                             <button type="submit" class="btn btn-primary">Save</button>
-                            <a href="blogPosts-index.html" class="btn btn-outline-secondary">Cancel</a>
+                            <a href="{{route('admin.blog_posts.index')}}" class="btn btn-outline-secondary">Cancel</a>
                         </div>
                     </form>
                 </div>

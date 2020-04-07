@@ -76,9 +76,9 @@ class BlogPostsController extends Controller {
                 ->editColumn('status', function ($blogPost) {
 
                     if ($blogPost->status == 1) {
-                        return '<span class="text-success">yes</span>';
+                        return '<span class="text-success">Enabled</span>';
                     } else {
-                        return '<span class="text-danger">no</span>';
+                        return '<span class="text-danger">Disabled</span>';
                     }
                 })
                 ->editColumn('created_at', function ($blogPost) {
@@ -167,7 +167,7 @@ class BlogPostsController extends Controller {
         $newBlogPost->tags()->sync($formData['tag_id']);
 
 
-        $this->handlePhotoUpload('photo', $request, $newBlogPost);
+        $this->handlePhotoUpload($request, $newBlogPost);
 
 
 
@@ -197,20 +197,20 @@ class BlogPostsController extends Controller {
 
     public function update(Request $request, BlogPost $blogPost) {
         $formData = $request->validate([
-            'blog_post_category_id' => ['required', 'numeric', 'max:10', 'exists:blog_post_categories,id'],
-            'aubject' => ['required', 'string', 'max:255', Rule::unique('blog_posts')->ignore($blogPost->id)],
-            'body' => ['nullable', 'string', 'max:1000'],
+            'blog_post_category_id' => ['nullable', 'numeric', 'max:10', 'exists:blog_post_categories,id'],
+            'subject' => ['required', 'string', 'max:255', Rule::unique('blog_posts')->ignore($blogPost->id)],
+            'description' => ['nullable', 'string', 'min:50', 'max:500'],
             'tag_id' => ['required', 'array', 'exists:tags,id'],
             'photo' => ['nullable', 'file', 'image'],
-            'details' => ['nullable', 'string'],
+            'body' => ['required', 'string'],
         ]);
 
         $blogPost->fill($formData);
-        $blogPost->user = \Auth::user();
+        $blogPost->user_id = \Auth::user()->id;
         $blogPost->save();
         $blogPost->tags()->sync($formData['tag_id']);
 
-        $this->handlePhotoUpload('photo', $request, $blogPost);
+        $this->handlePhotoUpload($request, $blogPost);
 
         session()->flash('system_message', __('BlogPost has been saved!'));
 
@@ -241,7 +241,7 @@ class BlogPostsController extends Controller {
         ]);
 
         $blogPost = BlogPost::findOrFail($formData['id']);
-        $blogPost->status = User::STATUS_ENABLED;
+        $blogPost->status = BlogPost::STATUS_ENABLED;
         $blogPost->save();
 
         return response()->json([
@@ -255,23 +255,49 @@ class BlogPostsController extends Controller {
         ]);
 
         $blogPost = BlogPost::findOrFail($formData['id']);
-        $blogPost->status = User::STATUS_DISABLED;
+        $blogPost->status = BlogPost::STATUS_DISABLED;
         $blogPost->save();
         return response()->json([
                     'system_message' => __('BlogPost has been disabled')
         ]);
     }
 
-    public function deletePhoto(Request $request, BlogPost $blogPost) {
+    public function make_important(Request $request) {
         $formData = $request->validate([
-            'photo' => ['required', 'string', 'in:photo1,photo2'],
+            'id' => ['required', 'numeric', 'exists:blog_posts,id'],
         ]);
 
+        $blogPost = BlogPost::findOrFail($formData['id']);
+        $blogPost->on_index_page = BlogPost::INDEX_IMPORTANT;
+        $blogPost->save();
+
+        return response()->json([
+                    'system_message' => __('Blog Post is added on index page')
+        ]);
+    }
+
+    public function make_unimportant(Request $request) {
+        $formData = $request->validate([
+            'id' => ['required', 'numeric', 'exists:blog_posts,id'],
+        ]);
+
+        $blogPost = BlogPost::findOrFail($formData['id']);
+        $blogPost->on_index_page = BlogPost::INDEX_UNIMPORTANT;
+        $blogPost->save();
+        return response()->json([
+                    'system_message' => __('Blog Post is removed from index page')
+        ]);
+    }
+
+    public function deletePhoto(Request $request, BlogPost $blogPost) {
+        $formData = $request->validate([
+            'photo' => ['required', 'string'],
+        ]);
         $photoFieldName = $formData['photo'];
 
         $blogPost->deletePhoto($photoFieldName);
 
-        $blogPost->$photoFieldName = null;
+        $blogPost->photo = null;
         $blogPost->save();
 
         return response()->json([
@@ -281,36 +307,33 @@ class BlogPostsController extends Controller {
     }
 
     protected function handlePhotoUpload(
-            string $photoFieldName,
             Request $request,
             BlogPost $blogPost
     ) {
-        if ($request->hasFile($photoFieldName)) {
+        if ($request->hasFile('photo')) {
 
+            $blogPost->deletePhoto();
 
-            $blogPost->deletePhoto($photoFieldName);
+            $photoFile = $request->file('photo');
 
-            $photoFile = $request->file($photoFieldName);
-
-            $newPhotoFileName = $blogPost->id . '_' . $photoFieldName . '_' . $photoFile->getClientOriginalName();
+            $newPhotoFileName = $blogPost->id . '_' . $photoFile->getClientOriginalName();
 
             $photoFile->move(
-                    public_path('/storage/blog_posts/'),
-                    $newPhotoFileName
+                    public_path('/storage/blog_posts/'), $newPhotoFileName
             );
 
-
-            $blogPost->$photoFieldName = $newPhotoFileName;
+            $blogPost->photo = $newPhotoFileName;
 
             $blogPost->save();
 
-            \Image::make(public_path('/storage/blog_posts/' . $blogPost->$photoFieldName))
+
+            \Image::make(public_path('/storage/blog_posts/' . $blogPost->photo))
                     ->fit(400, 600)
                     ->save();
 
-            \Image::make(public_path('/storage/blog_posts/' . $blogPost->$photoFieldName))
-                    ->fit(300, 300)
-                    ->save(public_path('/storage/blog_posts/thumbs/' . $blogPost->$photoFieldName));
+            \Image::make(public_path('/storage/blog_posts/' . $blogPost->photo))
+                    ->fit(256, 256)
+                    ->save(public_path('/storage/blog_posts/thumbs/' . $blogPost->photo));
         }
     }
 

@@ -92,7 +92,7 @@
                                             name="description"
                                             class="form-control @if($errors->has('description')) is-invalid @endif" 
                                             placeholder="Enter Shor description"
-                                            >{{old('description')}}</textarea>
+                                            >{{old('description', $blogPost->description)}}</textarea>
                                         @include('admin._layout.partials.form_errors', ['fieldName' =>'description'])
                                     </div>
                                     <div class="form-group">
@@ -140,7 +140,7 @@
                                             name="body"
                                             class="form-control @if($errors->has('body')) is-invalid @endif" 
                                             placeholder="Enter Body"
-                                            >{{old('body')}}</textarea>
+                                            >{{old('body',$blogPost->body)}}</textarea>
                                         @include('admin._layout.partials.form_errors', ['fieldName' =>'body'])
                                     </div>
                                 </div>
@@ -154,7 +154,7 @@
                                                     <button 
                                                         type="button" 
                                                         class="btn btn-sm btn-outline-danger"
-                                                        data-action="#"
+                                                        data-action="delete-photo"
                                                         data-photo="photo"
                                                         >
                                                         <i class="fas fa-remove"></i>
@@ -163,7 +163,7 @@
                                                 </div>
                                                 <div class="text-center">
                                                     <img 
-                                                        src="https://via.placeholder.com/400x600" 
+                                                        src="{{$blogPost->getPhotoUrl()}}" 
                                                         alt="" 
                                                         class="img-fluid"
                                                         data-container="photo"
@@ -180,7 +180,7 @@
                         <!-- /.card-body -->
                         <div class="card-footer">
                             <button type="submit" class="btn btn-primary">Save</button>
-                            <a href="blogPosts-index.html" class="btn btn-outline-secondary">Cancel</a>
+                            <a href="{{route('admin.blog_posts.index')}}" class="btn btn-outline-secondary">Cancel</a>
                         </div>
                     </form>
                 </div>
@@ -198,7 +198,28 @@
 <script src="/themes/admin/plugins/ckeditor/ckeditor.js" type="text/javascript"></script>
 <script src="/themes/admin/plugins/ckeditor/adapters/jquery.js" type="text/javascript"></script>
 <script type="text/javascript">
+    $('#entity-form').on('click', '[data-action="delete-photo"]', function (e) {
+        e.preventDefault();
 
+        let photo = $(this).attr('data-photo'); //'photo1' ili 'photo2'
+
+        $.ajax({
+            "url": "{{route('admin.blog_posts.delete_photo', ['blogPost' => $blogPost->id])}}",
+            "type": "post",
+            "data": {
+                "_token": "{{csrf_token()}}",
+                "photo": photo
+            }
+        }).done(function (response) {
+
+            toastr.success(response.system_message);
+
+            $('img[data-container="' + photo + '"]').attr('src', response.photo_url);
+
+        }).fail(function () {
+            toastr.error('Error while deleteing photo');
+        });
+    });
 
     //select name=user_id
     $('#entity-form [name="user_id"]').select2({
@@ -221,10 +242,10 @@
 
     $('#entity-form').validate({
         rules: {
-            "user_id": {
-                "required": true
-            },
             "blog_post_category_id": {
+                "required": false
+            },
+            "tag_id": {
                 "required": true
             },
             "name": {
@@ -232,14 +253,12 @@
                 "maxlength": 255
             },
             "description": {
-                "maxlength": 1000
+                "minlength": 50,
+                "maxlength": 500
             },
-            "price": {
-                "required": true,
-                "min": 0.01
-            },
-            "old_price": {
-                "min": 0.01
+            "body": {
+                "minlength": 2,
+                "maxlength": 2500
             }
         },
         errorElement: 'span',
