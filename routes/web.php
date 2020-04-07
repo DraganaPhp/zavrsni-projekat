@@ -56,6 +56,23 @@ Route::middleware('auth')->prefix('/admin')->namespace('Admin')->group(function 
         Route::post('/datatable', 'UsersController@datatable')->name('admin.users.datatable');
     });
 
+//Routes for SlidesController
+    Route::prefix('/slides')->group(function () {
+
+        Route::get('/', 'SlidesController@index')->name('admin.slides.index'); // /admin/sizes
+        Route::get('/add', 'SlidesController@add')->name('admin.slides.add');
+        Route::post('/insert', 'SlidesController@insert')->name('admin.slides.insert');
+
+        Route::get('/edit/{slide}', 'SlidesController@edit')->name('admin.slides.edit');
+        Route::post('/update/{slide}', 'SlidesController@update')->name('admin.slides.update');
+
+        Route::post('/delete', 'SlidesController@delete')->name('admin.slides.delete');
+        Route::post('/disable-status', 'SlidesController@disableStatus')->name('admin.slides.disable_status');
+        Route::post('/enable-status', 'SlidesController@enableStatus')->name('admin.slides.enable_status');
+        Route::post('/delete-photo/{slide}', 'SlidesController@deletePhoto')->name('admin.slides.delete_photo');
+        Route::post('/datatable', 'SlidesController@datatable')->name('admin.slides.datatable');
+        Route::post('/change-priorities', 'SlidesController@changePriorities')->name('admin.slides.change_priorities');
+    });
 
     Route::prefix('/profile')->group(function () {
 

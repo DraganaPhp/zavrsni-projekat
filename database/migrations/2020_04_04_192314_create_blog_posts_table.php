@@ -21,7 +21,7 @@ class CreateBlogPostsTable extends Migration {
             $table->bigInteger('user_id');
             $table->bigInteger('comment_id')->comment('comment added on this post')->nullable();
             $table->string('photo')->nullable();
-            $table->boolean('on_index_page')->default(0)->comment('if comment should be displayed on index page');
+            $table->boolean('on_index_page')->default(0)->comment('if blog post should be displayed on index page');
             $table->timestamps();
         });
     }
