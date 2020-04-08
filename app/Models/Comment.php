@@ -2,9 +2,6 @@
 
 namespace App\Models;
 
-use App\User;
-use App\Models\BlogPostCategory;
-use App\Models\Tag;
 use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model {

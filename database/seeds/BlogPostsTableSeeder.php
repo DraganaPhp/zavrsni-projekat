@@ -29,7 +29,6 @@ class BlogPostsTableSeeder extends Seeder {
                 'user_id' => $userIds->random(),
                 'created_at' => $faker->dateTimeBetween($startDate = '-6 months', $endDate = 'now', $timezone = null),
                 'updated_at' => $faker->dateTimeBetween($startDate = '-6 months', $endDate = 'now', $timezone = null),
-                'comment_id' => rand(1, 256), // nije jedunstven broj, privremeno stavljeno, dok se ne napravi tabela za komentare
                 'views' => rand(0, 1024),
             ]);
         }

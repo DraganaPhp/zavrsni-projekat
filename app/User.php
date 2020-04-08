@@ -53,7 +53,7 @@ class User extends Authenticatable {
             return url('/storage/users/' . $this->photo);
         }
 
-        return url('/themes/admin/dist/img/default-150x150.png');
+        return url('/themes/front/img/avatar-1.jpg');
     }
 
     public function deletePhoto() {

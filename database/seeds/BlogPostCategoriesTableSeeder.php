@@ -16,6 +16,7 @@ class BlogPostCategoriesTableSeeder extends Seeder {
         foreach ($blogPostCategoryNames as $blogPostCategoryName) {
             \DB::table('blog_post_categories')->insert([
                 'name' => $blogPostCategoryName,
+                'description' => 'Short description of category ' . $blogPostCategoryName,
                 'created_at' => date('Y-m-d H:m:s'),
                 'updated_at' => date('Y-m-d H:m:s')
             ]);

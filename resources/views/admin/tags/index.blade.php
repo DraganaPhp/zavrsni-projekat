@@ -33,7 +33,7 @@
                     <div class="card-header">
                         <h3 class="card-title">@lang('All Tags')</h3>
                         <div class="card-tools">
-                            <form style="display:none;"id="change-priority-form" class="btn-group" action="{{route('admin.tags.change_priorities')}}" method="post">
+                            <form style="display:none;"id="change-priority-form" class="btn-group" action="{{route('admin.slides.change_priorities')}}" method="post">
                                 @csrf
                                 <input type="hidden" name="priorities" value="">
                                 <button type="submit" class="btn btn-outline-success">
@@ -68,45 +68,7 @@
                                 </tr>
                             </thead>
                             <tbody id="sortable-list">
-                                @foreach($tags as $tag)
-                                <tr data-id="{{$tag->id}}">
-                                    <td>
-                                        <span style="display:none;" class="handle" class="btn btn-outline-secondary">
-                                            <i class="fas fa-sort"></i>
-                                        </span>
-                                        #{{$tag->id}}
-                                    </td>
-                                    <td>
-                                        <strong>{{$tag->name}}</strong>
-                                    </td>
-                                    <td class="text-center">{{$tag->created_at}}</td>
-                                    <td class="text-center">{{$tag->updated_at}}</td>
-                                    <td class="text-center">
-                                        <div class="btn-group">
-                                            <a href=# class="btn btn-info" target="_blank">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                            <a 
-                                                href="{{route('admin.tags.edit', ['tag' => $tag->id])}}" 
-                                                class="btn btn-info"
-                                                >
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                            <button 
-                                                type="button" 
-                                                class="btn btn-info" 
-                                                data-toggle="modal" 
-                                                data-target="#delete-modal"
-                                                data-action="delete"
-                                                data-id="{{$tag->id}}"
-                                                data-name="{{$tag->name}}"
-                                                >
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                @endforeach
+
                             </tbody>
                         </table>
                     </div>
@@ -162,10 +124,46 @@
 @push('footer_javascript')
 <script src="{{url('/themes/admin/plugins/jquery-ui/jquery-ui.min.js')}}" type="text/javascript"></script>
 <script type="text/javascript">
+
+
+    $('#entities-filter-form [name]').on('change keyup', function (e) {
+        $('#entities-filter-form').trigger('submit');
+    });
+
+    $('#entities-filter-form').on('submit', function (e) {
+        e.preventDefault();
+        entitiesDataTable.ajax.reload(null, true);
+    });
+
+    let entitiesDataTable = $('#entities-list-table').DataTable({
+        "serverSide": true,
+        "processing": true,
+        "ajax": {
+            "url": "{{route('admin.tags.datatable')}}",
+            "type": "post",
+            "data": function (dtData) {
+                dtData["_token"] = "{{csrf_token()}}";
+                dtData["name"] = $('#entities-filter-form [name="name"]').val();
+
+            }
+        },
+        "pageLength": 5,
+        "lengthMenu": [5, 10, 25, 50, 100, 250, 500, 1000],
+        "order": [[1, 'desc']],
+        "columns": [
+            {"name": "id", "data": "id"},
+            {"name": "name", "data": "name"},
+            {"name": "created_at", "data": "created_at", "className": "text-center"},
+            {"name": "updated_at", "data": "created_at", "className": "text-center"},
+            {"name": "actions", "data": "actions", "orderable": false, "searchable": false, "className": "text-center"}
+        ]
+    });
+
     $('#entities-list-table').on('click', '[data-action="delete"]', function (e) {
         //e.stopPropagation();
         //e.preventDefault();
 
+        //let id = $(this).data('id');
         let id = $(this).attr('data-id');
         let name = $(this).attr('data-name');
 
@@ -173,29 +171,28 @@
         $('#delete-modal [data-container="name"]').html(name);
     });
 
-    $('#sortable-list').sortable({
-        "handle": ".handle",
-        "update": function (event, ui) {
-            let priorities = $('#sortable-list').sortable('toArray', {
-                "attribute": "data-id"
-            });
-            console.log(priorities);
-            $('#change-priority-form [name="priorities"]').val(priorities.join(','));
-        }
-    });
-    $('[data-action="show-order"]').on('click', function (e) {
-        $('[data-action="show-order"]').hide();
-        $('#change-priority-form').show();
-        $('#sortable-list .handle').show();
+    $('#delete-modal').on('submit', function (e) {
+        e.preventDefault();
 
-    });
-    $('[data-action="hide-order"]').on('click', function (e) {
-        $('[data-action="show-order"]').show();
-        $('#change-priority-form').hide();
-        $('#sortable-list .handle').hide();
-        $('#sortable-list').sortable('cancel');
+        $(this).modal('hide');
 
+        $.ajax({
+            "url": $(this).attr('action'), //citanje actio atributa sa forme
+            "type": "post",
+            "data": $(this).serialize() //citanje svih polja na formi  tj sve sto ima "name" atribut
+        }).done(function (response) {
+
+            toastr.success(response.system_message);
+
+            // da refreshujemo datatables!!!
+
+            entitiesDataTable.ajax.reload(null, false);
+
+        }).fail(function () {
+            toastr.error("@lang('Error occured while deleting blogPost')");
+        });
     });
+
+
 </script>
-
 @endpush

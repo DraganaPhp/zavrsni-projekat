@@ -13,7 +13,7 @@ class SlidesTableSeeder extends Seeder {
         \DB::table('slides')->truncate();
 
         $faker = \Faker\Factory::create();
-        for ($i = 1; $i <= 100; $i++) {
+        for ($i = 1; $i <= 10; $i++) {
             \DB::table('slides')->insert([
                 'subject' => $faker->city(),
                 'link_title' => $faker->city(),

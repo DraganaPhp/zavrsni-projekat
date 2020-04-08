@@ -3,8 +3,6 @@
 namespace App\Models;
 
 use App\User;
-use App\Models\BlogPostCategory;
-use App\Models\Tag;
 use Illuminate\Database\Eloquent\Model;
 
 class BlogPost extends Model {
@@ -66,7 +64,7 @@ class BlogPost extends Model {
         if ($this->photo) {
             return url('/storage/blog_posts/' . $this->photo);
         }
-        return url('/themes/front/img/blog-post-1.jpg');
+        return url('/themes/front/img/blog-1.jpg');
     }
 
     public function getPhotoThumbUrl() {
@@ -75,7 +73,7 @@ class BlogPost extends Model {
         }
 
 
-        return url('/themes/front/img/blog-post-1.jpg');
+        return url('/themes/front/img/blog-post-1.jpeg');
     }
 
     public function deletePhoto() {

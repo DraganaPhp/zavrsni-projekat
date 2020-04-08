@@ -30,10 +30,10 @@ class BlogPostsController extends Controller {
         ]);
 
         $query = BlogPost::query()
-                ->with(['user', 'blogPostCategory', 'tags'])
+                ->with(['user', 'blogPostCategory', 'tags', 'comments'])
                 ->join('users', 'blog_posts.user_id', '=', 'users.id')
                 ->join('blog_post_categories', 'blog_posts.blog_post_category_id', '=', 'blog_post_categories.id')
-                ->select(['blog_posts.*', 'users.name AS user_name', 'blog_post_categories.name AS blog_post_category.name']);
+                ->select(['blog_posts.*', 'blog_post_categories.name AS blog_post_category.name']);
 
         //Inicijalizacija datatables-a
         $dataTable = \DataTables::of($query);
@@ -52,6 +52,9 @@ class BlogPostsController extends Controller {
                 })
                 ->addColumn('blog_post_category_name', function ($blogPost) {
                     return optional($blogPost->blogPostCategory)->name;
+                })
+                ->addColumn('blog_post_comments', function ($blogPost) {
+                    return optional($blogPost->comments)->count();
                 })
                 ->addColumn('actions', function ($blogPost) {
                     return view('admin.blog_posts.partials.actions', ['blogPost' => $blogPost]);

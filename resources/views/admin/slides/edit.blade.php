@@ -149,7 +149,7 @@
 
                         <div class="card-footer">
                             <button type="submit" class="btn btn-primary">Save</button>
-                            <a href="slides-index.html" class="btn btn-outline-secondary">Cancel</a>
+                            <a href="{{route('admin.slides.index')}}" class="btn btn-outline-secondary">Cancel</a>
                         </div>
                     </form>
                 </div>

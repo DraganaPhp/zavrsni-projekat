@@ -31,8 +31,24 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Search Slides</h3>
+                        <h3 class="card-title">@lang('All Slides')</h3>
                         <div class="card-tools">
+                            <form style="display:none;"id="change-priority-form" class="btn-group" action="{{route('admin.slides.change_priorities')}}" method="post">
+                                @csrf
+                                <input type="hidden" name="priorities" value="">
+                                <button type="submit" class="btn btn-outline-success">
+                                    <i class="fas fa-check"></i>
+                                    @lang('Save Order')
+                                </button>
+                                <button type="button" data-action="hide-order" class="btn btn-outline-danger">
+                                    <i class="fas fa-remove"></i>
+                                    @lang('Cancel')
+                                </button>
+                            </form>
+                            <button data-action="show-order" class="btn btn-outline-secondary">
+                                <i class="fas fa-sort"></i>
+                                @lang('Change Order')
+                            </button>
                             <a href="{{route('admin.slides.add')}}" class="btn btn-success">
                                 <i class="fas fa-plus-square"></i>
                                 @lang('Add new Slide')
@@ -41,63 +57,90 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <form id="entities-filter-form">
-                            <div class="row">
-                                <div class="col-md-2 form-group">
-                                    <label>On index page</label>
-                                    <select class="form-control" name="on_index_page">
-                                        <option value="">-- All --</option>
-                                        <option value="1">Enable</option>
-                                        <option value="0">Disable</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3 form-group">
-                                    <label>Subject</label>
-                                    <input type="text" class="form-control" placeholder="Search by subject" name="subject">
-                                </div>
-                                <div class="col-md-3 form-group">
-                                    <label>Link title</label>
-                                    <input type="text" class="form-control" placeholder="Search by link title" name="link_title">
-                                </div>
-                                <div class="col-md-2 form-group">
-                                    <label>Link URL</label>
-                                    <input type="text" class="form-control" placeholder="Search by subject" name="link_url">
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <!-- /.card-body -->
-                    <div class="card-footer clearfix">
-
-                    </div>
-                </div>
-
-
-
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">@lang('All Slides')</h3>
-                        <div class="card-tools">
-
-                        </div>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body">
                         <table class="table table-bordered" id="entities-list-table">
                             <thead>                  
                                 <tr>
-                                    <th style="width: 10px">#</th>
-                                    <th style="width: 10px">@lang('On index page')</th>
-                                    <th style="width: 10px">@lang('Subject')</th>
+                                    <th style="width: 10%">#</th>
+                                    <th style="text-center">@lang('Important')</th>
+                                    <th style="text-center">@lang('Subject')</th>
                                     <th class="text-center">@lang('Photo')</th>
                                     <th class="text-center">@lang('Link title')</th>
-                                    <th class="text-center">@lang('Link URL')</th>
-                                    <th class="text-center">@lang('Created At')</th>
+                                    <th class="text-center">@lang('Link url')</th>
+                                    <th class="text-center">@lang('created_at')</th>
                                     <th class="text-center">@lang('Actions')</th>
                                 </tr>
                             </thead>
                             <tbody id="sortable-list">
-
+                                @foreach($slides as $slide)
+                                <tr data-id="{{$slide->id}}">
+                                    <td>
+                                        <span style="display:none;" class="handle" class="btn btn-outline-secondary">
+                                            <i class="fas fa-sort"></i>
+                                        </span>
+                                        #{{$slide->id}}
+                                    </td>
+                                    <td class="text-center">{{$slide->on_index_page}}</td>
+                                    <td>
+                                        <strong>{{$slide->subject}}</strong>
+                                    </td>
+                                    <td class="text-center">
+                                        <img src="{{$slide->getPhotoUrl()}}" style="max-width: 80px;">
+                                    </td>
+                                    <td class="text-center">{{$slide->link_title}}</td>
+                                    <td class="text-center">{{$slide->link_url}}</td>
+                                    <td class="text-center">{{$slide->created_at}}</td>
+                                    <td class="text-center">
+                                        <div class="btn-group">
+                                            <a href=# class="btn btn-info" target="_blank">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a 
+                                                href="{{route('admin.slides.edit', ['slide' => $slide->id])}}" 
+                                                class="btn btn-info"
+                                                >
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <button 
+                                                type="button" 
+                                                class="btn btn-info" 
+                                                data-toggle="modal" 
+                                                data-target="#delete-modal"
+                                                data-action="delete"
+                                                data-id="{{$slide->id}}"
+                                                data-name="{{$slide->subject}}"
+                                                >
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                            @if($slide->isEnabled())
+                                            <button 
+                                                type="button" 
+                                                class="btn btn-info" 
+                                                data-toggle="modal" 
+                                                data-target="#disable-modal"
+                                                data-action="disable"
+                                                data-id="{{$slide->id}}"
+                                                data-name="{{$slide->subject}}"
+                                                >
+                                                <i class="fas fa-minus-circle"></i>
+                                            </button>
+                                            @endif
+                                            @if($slide->isDisabled())
+                                            <button 
+                                                type="button" 
+                                                class="btn btn-info" 
+                                                data-toggle="modal" 
+                                                data-target="#enable-modal"
+                                                data-action="enable"
+                                                data-id="{{$slide->id}}"
+                                                data-name="{{$slide->subject}}"
+                                                >
+                                                <i class="fas fa-check"></i>
+                                            </button>
+                                            @endif
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -115,7 +158,33 @@
 </section>
 <!-- /.content -->
 
+<form class="modal fade" id="delete-modal" action="{{route('admin.slides.delete')}}" method="post">
+    @csrf
+    <input type="hidden" name="id" value="">
 
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Delete Slide</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete slide?</p>
+                <strong data-container="name"></strong>
+
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</form>
+<!-- /.modal -->
 <!-- /.modal -->
 <form class="modal fade" id="disable-modal" action="{{route('admin.slides.disable_status')}}" method="post">
     @csrf
@@ -123,7 +192,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Make Slide disable </h4>
+                <h4 class="modal-title">Remove User From Featured</h4>
                 <button 
                     type="button" 
                     class="close" 
@@ -158,7 +227,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Make Slide Enable</h4>
+                <h4 class="modal-title">Mark User Featured</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -181,65 +250,27 @@
 </form>
 <!-- /.modal -->
 
-<!-- /.modal -->
 
-<!-- /.content-wrapper -->
+
+
 @endsection
 
 @push('footer_javascript')
 <script type="text/javascript">
+    $('#entities-list-table').on('click', '[data-action="delete"]', function (e) {
+        //e.stopPropagation();
+        //e.preventDefault();
 
+        let id = $(this).attr('data-id');
+        let name = $(this).attr('data-name');
 
-    $('#entities-filter-form [subject]').on('change keyup', function (e) {
-
-        $('#entities-filter-form').trigger('submit');
-    });
-    $('#entities-filter-form [link_title]').on('change keyup', function (e) {
-        $('#entities-filter-form').trigger('submit');
-    });
-    $('#entities-filter-form [link_url]').on('change keyup', function (e) {
-        $('#entities-filter-form').trigger('submit');
-    });
-    $('#entities-filter-form [on_index_page]').on('change keyup', function (e) {
-        $('#entities-filter-form').trigger('submit');
+        $('#delete-modal [name="id"]').val(id);
+        $('#delete-modal [data-container="name"]').html(name);
     });
 
-    $('#entities-filter-form').on('submit', function (e) {
-        e.preventDefault();
-        entitiesDataTable.ajax.reload(null, true);
-    });
 
-    let entitiesDataTable = $('#entities-list-table').DataTable({
-        "serverSide": true,
-        "processing": true,
-        "ajax": {
-            "url": "{{route('admin.slides.datatable')}}",
-            "type": "post",
-            "data": function (dtData) {
-                dtData["_token"] = "{{csrf_token()}}";
-                dtData["subject"] = $('#entities-filter-form [name="subject"]').val();
-                dtData["link_title"] = $('#entities-filter-form [name="link_title"]').val();
-                dtData["link_url"] = $('#entities-filter-form [name="link_url"]').val();
-                dtData["on_index_page"] = $('#entities-filter-form [name="on_index_page"]').val();
 
-            }
-        },
-        "pageLength": 5,
-        "lengthMenu": [5, 10, 25, 50, 100, 250, 500, 1000],
-        "order": [[1, 'desc']],
-        "columns": [
-            {"name": "id", "data": "id"},
-            {"name": "on_index_page", "data": "on_index_page", "className": "text-center"},
-            {"name": "subject", "data": "subject", "className": "text-center"},
-            {"name": "photo", "data": "photo", "orderable": false, "searchable": false, "className": "text-center"},
-            {"name": "link_title", "data": "link_title"},
-            {"name": "link_url", "data": "link_url"},
-            {"name": "created_at", "data": "created_at", "className": "text-center"},
-            {"name": "actions", "data": "actions", "orderable": false, "searchable": false, "className": "text-center"}
-        ]
-    });
-
-    $('#entities-list-table').on('click', '[data-action="change-status"]', function (e) {
+    $('#entities-list-table').on('click', '[data-action="disable"]', function (e) {
         //e.stopPropagation();
         //e.preventDefault();
 
@@ -254,85 +285,34 @@
         //e.stopPropagation();
         //e.preventDefault();
 
-        //let id = $(this).data('id');
         let id = $(this).attr('data-id');
         let name = $(this).attr('data-name');
 
         $('#enable-modal [name="id"]').val(id);
         $('#enable-modal [data-container="name"]').html(name);
     });
-
-    $('#enable-modal').on('submit', function (e) {
-        e.preventDefault();
-
-        $(this).modal('hide');
-
-        $.ajax({
-            "url": $(this).attr('action'), //citanje actio atributa sa forme
-            "type": "post",
-            "data": $(this).serialize() //citanje svih polja na formi  tj sve sto ima "name" atribut
-        }).done(function (response) {
-
-            toastr.success(response.system_message);
-
-            // da refreshujemo datatables!!!
-
-            entitiesDataTable.ajax.reload(null, false);//drugi parametar false zaci da se NE RESETUJE paginacija
-
-        }).fail(function (xhr) {
-            let systemError = "@lang('Error occured while enabling user')";
-
-            if (xhr.responseJSON && xhr.responseJSON['system_error']) {
-                systemError = xhr.responseJSON['system_error'];
-            }
-
-            toastr.error(systemError);
-
-        });
+    $('#sortable-list').sortable({
+        "handle": ".handle",
+        "update": function (event, ui) {
+            let priorities = $('#sortable-list').sortable('toArray', {
+                "attribute": "data-id"
+            });
+            console.log(priorities);
+            $('#change-priority-form [name="priorities"]').val(priorities.join(','));
+        }
     });
+    $('[data-action="show-order"]').on('click', function (e) {
+        $('[data-action="show-order"]').hide();
+        $('#change-priority-form').show();
+        $('#sortable-list .handle').show();
 
-
-    $('#entities-list-table').on('click', '[data-action="disable"]', function (e) {
-        //e.stopPropagation();
-        //e.preventDefault();
-
-        //let id = $(this).data('id');
-        let id = $(this).attr('data-id');
-        let name = $(this).attr('data-name');
-
-        $('#disable-modal [name="id"]').val(id);
-        $('#disable-modal [data-container="name"]').html(name);
     });
+    $('[data-action="hide-order"]').on('click', function (e) {
+        $('[data-action="show-order"]').show();
+        $('#change-priority-form').hide();
+        $('#sortable-list .handle').hide();
+        $('#sortable-list').sortable('cancel');
 
-    $('#disable-modal').on('submit', function (e) {
-        e.preventDefault();
-
-        $(this).modal('hide');
-
-        $.ajax({
-            "url": $(this).attr('action'),
-            "type": "post",
-            "data": $(this).serialize()
-        }).done(function (response) {
-
-            toastr.success(response.system_message);
-
-            // da refreshujemo datatables!!!
-
-            entitiesDataTable.ajax.reload(null, false);
-
-        }).fail(function (xhr) {
-            let systemError = "@lang('Error occured while disabling user')";
-
-            if (xhr.responseJSON && xhr.responseJSON['system_error']) {
-                systemError = xhr.responseJSON['system_error'];
-            }
-
-            toastr.error(systemError);
-        });
     });
-
-
-
 </script>
 @endpush

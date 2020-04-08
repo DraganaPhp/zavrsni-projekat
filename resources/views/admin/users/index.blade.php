@@ -237,18 +237,6 @@
         ]
     });
 
-
-    $('#entities-list-table').on('click', '[data-action="change-status"]', function (e) {
-        //e.stopPropagation();
-        //e.preventDefault();
-
-        let id = $(this).attr('data-id');
-        let name = $(this).attr('data-name');
-
-        $('#disable-modal [name="id"]').val(id);
-        $('#disable-modal [data-container="name"]').html(name);
-    });
-
     $('#entities-list-table').on('click', '[data-action="enable"]', function (e) {
         //e.stopPropagation();
         //e.preventDefault();

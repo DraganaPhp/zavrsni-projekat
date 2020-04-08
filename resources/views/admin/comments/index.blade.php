@@ -47,12 +47,7 @@
                                 </div>
                                 <div class="col-md-2 form-group">
                                     <label>Blog Post</label>
-                                    <select class="form-control" name="blog_post_id">
-                                        <option value="">--Choose Category --</option>
-                                        @foreach(\App\Models\BlogPost::orderBy('subject')->get() as $blogPost)
-                                        <option value="{{$blogPost->id}}">{{$blogPost->subject}}</option>
-                                        @endforeach
-                                    </select>
+                                    <input type="text" class="form-control" placeholder="Search by block post subject" name="blog_post_subject">
                                 </div>
                                 <div class="col-md-2 form-group">
                                     <label>Sender Nickname</label>
@@ -189,7 +184,7 @@
 <script type="text/javascript">
 
 
-    $('#entities-filter-form [blog_post_id]').select2({
+    $('#entities-filter-form [blog_post_subject]').select2({
         "theme": "bootstrap4"
     });
 
@@ -218,7 +213,7 @@
             "type": "post",
             "data": function (dtData) {
                 dtData["_token"] = "{{csrf_token()}}";
-                dtData["blog_post_id"] = $('#entities-filter-form [name="blog_post_id"]').val();
+                dtData["blog_post_subject"] = $('#entities-filter-form [name="blog_post_subject"]').val();
                 dtData["sender_nickname"] = $('#entities-filter-form [name="sender_nickname"]').val();
                 dtData["status"] = $('#entities-filter-form [name="status"]').val();
                 dtData["sender_email"] = $('#entities-filter-form [name="sender_email"]').val();
@@ -230,8 +225,8 @@
         "columns": [
             {"name": "id", "data": "id"},
             {"name": "status", "data": "status", "className": "text-center"},
-            {"name": "blog_post_id", "data": "blog_post_id", "className": "text-center"},
-            {"name": "body", "data": "body", "className": "text-center"},
+            {"name": "blog_post_subject", "data": "blog_post_subject", "className": "text-center"},
+            {"name": "body", "data": "body", "orderable": false, "className": "text-center"},
             {"name": "sender_nickname", "data": "sender_nickname"},
             {"name": "sender_email", "data": "sender_email"},
             {"name": "created_at", "data": "created_at", "className": "text-center"},
@@ -240,7 +235,7 @@
     });
 
 
-    $('#entities-list-table').on('click', '[data-action="change-featured"]', function (e) {
+    $('#entities-list-table').on('click', '[data-action="change-status"]', function (e) {
         //e.stopPropagation();
         //e.preventDefault();
 
@@ -251,7 +246,7 @@
         $('#disable-modal [data-container="name"]').html(name);
     });
 
-    $('#entities-list-table').on('click', '[data-action="change-featured"]', function (e) {
+    $('#entities-list-table').on('click', '[data-action="change-status"]', function (e) {
         //e.stopPropagation();
         //e.preventDefault();
 

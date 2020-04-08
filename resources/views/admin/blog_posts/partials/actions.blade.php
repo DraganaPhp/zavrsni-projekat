@@ -1,9 +1,9 @@
 
 <div class="btn-group">
-    <a href=# class="btn btn-info" target="_blank">
+    <a href=# class="btn btn-info" target="_blank" title="View Blog Post details">
         <i class="fas fa-info-circle"></i>
     </a>
-    <a href="{{route('admin.blog_posts.edit',['blogPost'=>$blogPost->id])}}" class="btn btn-info">
+    <a href="{{route('admin.blog_posts.edit',['blogPost'=>$blogPost->id])}}" class="btn btn-info" title="Edit Blog Post">
         <i class="fas fa-edit"></i>
     </a>
     <button 
@@ -14,6 +14,7 @@
         data-action="change-featured"
         data-id="{{$blogPost->id}}"
         data-name="{{$blogPost->subject}}"
+        title="Change status of Blog Post"
         >
         <i class="@if($blogPost->status==1)fas fa-minus-circle @else fas fa-check @endif"></i>
 
@@ -26,6 +27,7 @@
         data-action="change-importance"
         data-id="{{$blogPost->id}}"
         data-name="{{$blogPost->subject}}"
+        title="Change importance of Blog Post"
         >
         <i class="@if($blogPost->on_index_page==1)fas fa-eye-slash @else fas fa-eye @endif"></i>
 
@@ -38,6 +40,7 @@
         data-action="delete"
         data-id="{{$blogPost->id}}"
         data-name="{{$blogPost->subject}}"
+        title="Delete Blog Post"
         >
         <i class="fas fa-trash"></i>
     </button>

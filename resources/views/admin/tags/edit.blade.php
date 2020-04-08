@@ -38,7 +38,7 @@
                         <h3 class="card-title">
                             @lang('Editing tag'):
                             #{{$tag->id}}
-                            - 
+                            -
                             {{$tag->name}}
                         </h3>
                     </div>

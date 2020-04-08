@@ -6,94 +6,17 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Models\Slide;
-use Illuminate\Support\Facades\Hash;
 
 class SlidesController extends Controller {
 
     public function index() {
+        $slides = Slide::query()
+                ->orderby('priority')
+                ->get();
 
         return view('admin.slides.index', [
+            'slides' => $slides,
         ]);
-    }
-
-    public function datatable(Request $request) {
-
-        $searchFilters = $request->validate([
-            'on_index_page' => ['nullable', 'in:0,1'],
-            'subject' => ['nullable', 'string', 'max:255'],
-            'link_title' => ['nullable', 'string', 'max:255'],
-            'link_url' => ['nullable', 'string', 'max:25'],
-        ]);
-        $query = Slide::query();
-
-        //Inicijalizacija datatables-a
-        $dataTable = \DataTables::of($query);
-
-        //Podesavanje kolona
-
-        $dataTable->addColumn('actions', function ($slide) {
-                    return view('admin.slides.partials.actions', ['slide' => $slide]);
-                })
-                ->editColumn('photo', function ($slide) {
-                    return view('admin.slides.partials.slide_photo', ['slide' => $slide]);
-                })
-                ->editColumn('id', function ($slide) {
-                    return "#" . $slide->id;
-                })
-                ->editColumn('subject', function ($slide) {
-                    return '<strong>' . e($slide->subject) . '</strong>';
-                })
-                ->editColumn('created_at', function ($slide) {
-                    return $slide->created_at->format('Y-m-d');
-                })
-                ->editColumn('on_index_page', function ($slide) {
-
-                    if ($slide->on_index_page == 1) {
-                        return '<span class="text-success">enabled</span>';
-                    } else {
-                        return '<span class="text-danger">disabled</span>';
-                    }
-                });
-
-
-        $dataTable->rawColumns(['on_index_page', 'subject', 'photo', 'actions' . 'created_at']);
-
-        $dataTable->filter(function ($query) use ($request, $searchFilters) {
-
-            if (
-                    $request->has('search') && is_array($request->get('search')) && isset($request->get('search')['value'])
-            ) {
-                $searchTerm = $request->get('search')['value'];
-
-                $query->where(function ($query) use ($searchTerm) {
-
-                    $query->orWhere('slides.subject', 'LIKE', '%' . $searchTerm . '%')
-                            ->orWhere('slides.link_url', 'LIKE', '%' . $searchTerm . '%')
-                            ->orWhere('slides.link_title', 'LIKE', '%' . $searchTerm . '%')
-                          ->orWhere('slides.on_index_page', 'LIKE', '%' . $searchTerm . '%')
-                            ->orWhere('slides.id', '=', $searchTerm);
-                });
-            }
-
-
-
-            if (isset($searchFilters['subject'])) {
-                $query->where('slides.subject', 'LIKE', '%' . $searchFilters['subject'] . '%');
-            }
-
-            if (isset($searchFilters['link_title'])) {
-                $query->where('slides.link_title', 'LIKE', '%' . $searchFilters['link_title'] . '%');
-            }
-
-            if (isset($searchFilters['link_url'])) {
-                $query->where('link_url', 'LIKE', '%' . $searchFilters['link_url'] . '%');
-            }
-            if (isset($searchFilters['on_index_page'])) {
-                $query->where('on_index_page', '=', $searchFilters['on_index_page']);
-            }
-        });
-
-        return $dataTable->make(true);
     }
 
     public function add(Request $request) {
@@ -108,7 +31,7 @@ class SlidesController extends Controller {
         $formData = $request->validate([
             'subject' => ['required', 'string', 'max:255', 'unique:slides,subject'],
             'link_title' => ['required', 'string', 'min:4', 'max:255'],
-            'link_url' => ['nullable', 'url', 'min:9', 'max:13'],
+            'link_url' => ['nullable', 'url', 'min:9', 'max:50'],
             'photo' => ['nullable', 'file', 'image'],
                 ]
         );
@@ -152,6 +75,26 @@ class SlidesController extends Controller {
         return redirect()->route('admin.slides.index');
     }
 
+    public function delete(Request $request) {
+        $formData = $request->validate([
+            'id' => ['required', 'numeric', 'exists:slides,id'],
+        ]);
+
+        $formData['id'];
+        $slide = Slide::findOrFail($formData['id']);
+        $slide->delete();
+
+
+
+        Slide::query()
+                ->where('priority', '>', $slide->priority)
+                ->decrement('priority');
+
+        session()->flash('system_message', __('Slide has been deleted!'));
+
+        return redirect()->route('admin.slides.index');
+    }
+
     public function enableStatus(Request $request) {
         $formData = $request->validate([
             'id' => ['required', 'numeric', 'exists:slides,id'],
@@ -162,9 +105,9 @@ class SlidesController extends Controller {
         $slide->on_index_page = Slide::INDEX_ENABLED;
         $slide->save();
 
-        return response()->json([
-                    'system_message' => __('Slide has been enabled')
-        ]);
+        session()->flash('system_message', __('Slide has been enabled!'));
+
+        return redirect()->route('admin.slides.index');
     }
 
     public function disableStatus(Request $request) {
@@ -178,9 +121,26 @@ class SlidesController extends Controller {
         $slide->on_index_page = Slide::INDEX_DISABLED;
         $slide->save();
 
-        return response()->json([
-                    'system_message' => __('Slide has been disabled')
+        session()->flash('system_message', __('Slide has been disabled!'));
+
+        return redirect()->route('admin.slides.index');
+    }
+
+    public function changePriorities(Request $request) {
+        $formData = $request->validate([
+            'priorities' => ['required', 'string'],
         ]);
+
+        $priorities = explode(',', $formData['priorities']);
+
+        foreach ($priorities as $key => $id) {
+            $slide = Slide::findOrFail($id);
+            $slide->priority = $key + 1;
+            $slide->save();
+        }
+        session()->flash('system_message', __('Slides have been reordered'));
+
+        return redirect()->route('admin.slides.index');
     }
 
     public function deletePhoto(Request $request, Slide $slide) {

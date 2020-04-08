@@ -1,6 +1,6 @@
 @if(\Auth::user()->id != $user->id)
 <div class="btn-group">
-    <a href="{{route('admin.users.edit', ['user' => $user->id])}}" class="btn btn-info">
+    <a href="{{route('admin.users.edit', ['user' => $user->id])}}" class="btn btn-info" title="View Blog Post details" >
         <i class="fas fa-edit"></i>
     </a>
     @if($user->isEnabled())

@@ -2,10 +2,8 @@
 
 namespace App\Models;
 
-use App\User;
-use App\Models\BlogPostCategory;
-use App\Models\Tag;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\BlogPost;
 
 class Slide extends Model {
 

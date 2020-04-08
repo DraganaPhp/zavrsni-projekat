@@ -8,7 +8,7 @@
         class="btn btn-info" 
         data-toggle="modal" 
         data-target="@if ($comment->status==1)#disable-modal @else #enable-modal @endif"
-        data-action="change-featured"
+        data-action="change-status"
         data-id="{{$comment->id}}"
         data-name="{{$comment->subject}}"
         >

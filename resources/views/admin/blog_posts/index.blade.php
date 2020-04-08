@@ -47,8 +47,8 @@
                                     <label>Status</label>
                                     <select class="form-control" name="status">
                                         <option value="">-- All --</option>
-                                        <option value="1">yes</option>
-                                        <option value="0">no</option>
+                                        <option value="1">Enable</option>
+                                        <option value="0">Disable</option>
                                     </select>
                                 </div>
                                 <div class="col-md-2 form-group">
@@ -347,7 +347,7 @@
             {"name": "on_index_page", "data": "on_index_page", "className": "text-center"},
             {"name": "blog_post_category_name", "data": "blog_post_category_name"},
             {"name": "subject", "data": "subject"},
-            {"name": "comment_id", "data": "comment_id", "className": "text-center"}, //privremeno, dok se ne doda tabela komentari
+            {"name": "blog_post_comments", "data": "blog_post_comments", "className": "text-center"},
             {"name": "views", "data": "views", "className": "text-center"},
             {"name": "user_name", "data": "user_name"},
             {"name": "created_at", "data": "created_at", "className": "text-center"},
