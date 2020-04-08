@@ -134,4 +134,13 @@ Route::middleware('auth')->prefix('/admin')->namespace('Admin')->group(function 
         Route::post('/delete-photo/{blogPost}', 'BlogPostsController@deletePhoto')->name('admin.blog_posts.delete_photo');
         Route::post('/datatable', 'BlogPostsController@datatable')->name('admin.blog_posts.datatable');
     });
+
+    //Routes for CommentsController
+    Route::prefix('/comments')->group(function () {
+
+        Route::get('/', 'CommentsController@index')->name('admin.comments.index');
+        Route::post('/disable', 'CommentsController@disable')->name('admin.comments.disable');
+        Route::post('/enable', 'CommentsController@enable')->name('admin.comments.enable');
+        Route::post('/datatable', 'CommentsController@datatable')->name('admin.comments.datatable');
+    });
 });

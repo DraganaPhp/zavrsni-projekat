@@ -46,6 +46,14 @@ class BlogPost extends Model {
         );
     }
 
+    public function comments() {
+        return $this->hasMany(
+                        Comment::class,
+                        'blog_post_id',
+                        'id'
+        );
+    }
+
     public function isEnabled() {
         return $this->status == self::STATUS_ENABLED;
     }
@@ -54,13 +62,13 @@ class BlogPost extends Model {
         return $this->status == self::STATUS_DISABLED;
     }
 
-     public function getPhotoUrl() {
+    public function getPhotoUrl() {
         if ($this->photo) {
             return url('/storage/blog_posts/' . $this->photo);
         }
         return url('/themes/front/img/blog-post-1.jpg');
     }
-    
+
     public function getPhotoThumbUrl() {
         if ($this->photo) {
             return url('/storage/blog_posts/thumbs/' . $this->photo);
@@ -69,7 +77,7 @@ class BlogPost extends Model {
 
         return url('/themes/front/img/blog-post-1.jpg');
     }
-    
+
     public function deletePhoto() {
         if (!$this->photo) {
             return $this; //fluent interface
@@ -89,13 +97,14 @@ class BlogPost extends Model {
 
         $photoThumbPath = public_path('/storage/blog_posts/thumbs/' . $this->photo);
 
-          if (!is_file($photoThumbPath)) {
-          //thumb slika ne postoji na disku
-          return $this;
-          }
+        if (!is_file($photoThumbPath)) {
+            //thumb slika ne postoji na disku
+            return $this;
+        }
 
-          unlink($photoThumbPath);
+        unlink($photoThumbPath);
 
         return $this;
     }
+
 }

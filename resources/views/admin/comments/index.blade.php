@@ -1,6 +1,6 @@
 @extends('admin._layout.layout')
 
-@section('seo_title', __('Slides'))
+@section('seo_title', __('Comments'))
 
 @section('content')
 <!-- Content Header (Page header) -->
@@ -8,7 +8,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>@lang('Slides')</h1>
+                <h1>@lang('Comments')</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -17,7 +17,7 @@
                             @lang('Home')
                         </a>
                     </li>
-                    <li class="breadcrumb-item active">@lang('Slides')</li>
+                    <li class="breadcrumb-item active">@lang('Comments')</li>
                 </ol>
             </div>
         </div>
@@ -31,37 +31,36 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Search Slides</h3>
-                        <div class="card-tools">
-                            <a href="{{route('admin.slides.add')}}" class="btn btn-success">
-                                <i class="fas fa-plus-square"></i>
-                                @lang('Add new Slide')
-                            </a>
-                        </div>
+                        <h3 class="card-title">Search Comments</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
                         <form id="entities-filter-form">
                             <div class="row">
                                 <div class="col-md-2 form-group">
-                                    <label>On index page</label>
-                                    <select class="form-control" name="on_index_page">
+                                    <label>Status</label>
+                                    <select class="form-control" name="status">
                                         <option value="">-- All --</option>
                                         <option value="1">Enable</option>
                                         <option value="0">Disable</option>
                                     </select>
                                 </div>
-                                <div class="col-md-3 form-group">
-                                    <label>Subject</label>
-                                    <input type="text" class="form-control" placeholder="Search by subject" name="subject">
-                                </div>
-                                <div class="col-md-3 form-group">
-                                    <label>Link title</label>
-                                    <input type="text" class="form-control" placeholder="Search by link title" name="link_title">
+                                <div class="col-md-2 form-group">
+                                    <label>Blog Post</label>
+                                    <select class="form-control" name="blog_post_id">
+                                        <option value="">--Choose Category --</option>
+                                        @foreach(\App\Models\BlogPost::orderBy('subject')->get() as $blogPost)
+                                        <option value="{{$blogPost->id}}">{{$blogPost->subject}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div class="col-md-2 form-group">
-                                    <label>Link URL</label>
-                                    <input type="text" class="form-control" placeholder="Search by subject" name="link_url">
+                                    <label>Sender Nickname</label>
+                                    <input type="text" class="form-control" placeholder="Search by nicname" name="sender_nickname">
+                                </div>
+                                <div class="col-md-2 form-group">
+                                    <label>Sender email</label>
+                                    <input type="text" class="form-control" placeholder="Search by sender email" name="sender_email">
                                 </div>
                             </div>
                         </form>
@@ -76,7 +75,7 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">@lang('All Slides')</h3>
+                        <h3 class="card-title">@lang('All Comments')</h3>
                         <div class="card-tools">
 
                         </div>
@@ -87,11 +86,11 @@
                             <thead>                  
                                 <tr>
                                     <th style="width: 10px">#</th>
-                                    <th style="width: 10px">@lang('On index page')</th>
-                                    <th style="width: 10px">@lang('Subject')</th>
-                                    <th class="text-center">@lang('Photo')</th>
-                                    <th class="text-center">@lang('Link title')</th>
-                                    <th class="text-center">@lang('Link URL')</th>
+                                    <th style="width: 10px">@lang('Status')</th>
+                                    <th class="text-center">@lang('Blog post')</th>
+                                    <th class="text-center">@lang('Body text')</th>
+                                    <th class="text-center">@lang('Sender_nickname')</th>
+                                    <th class="text-center">@lang('Sender_email')</th>
                                     <th class="text-center">@lang('Created At')</th>
                                     <th class="text-center">@lang('Actions')</th>
                                 </tr>
@@ -116,14 +115,13 @@
 <!-- /.content -->
 
 
-<!-- /.modal -->
-<form class="modal fade" id="disable-modal" action="{{route('admin.slides.disable_status')}}" method="post">
+<form class="modal fade" id="disable-modal" action="{{route('admin.comments.disable')}}" method="post">
     @csrf
     <input type="hidden" name="id" value="">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Make Slide disable </h4>
+                <h4 class="modal-title">Disable Comment</h4>
                 <button 
                     type="button" 
                     class="close" 
@@ -135,7 +133,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>Are you sure you want to disable slide?</p>
+                <p>Are you sure you want to disable Comment?</p>
                 <strong data-container="name"></strong>
             </div>
             <div class="modal-footer justify-content-between">
@@ -151,20 +149,20 @@
     <!-- /.modal-dialog -->
     <!-- /.modal -->
 </form>
-<form class="modal fade" id="enable-modal" action="{{route('admin.slides.enable_status')}}" method="post">
+<form class="modal fade" id="enable-modal" action="{{route('admin.comments.enable')}}" method="post">
     @csrf
     <input type="text" name="id" value="">
 
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Make Slide Enable</h4>
+                <h4 class="modal-title"> Enable Comment</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <p>Are you sure you want to enable slide?</p>
+                <p>Are you sure you want to enable this Comment?</p>
                 <strong data-container="name"></strong>
             </div>
             <div class="modal-footer justify-content-between">
@@ -179,6 +177,7 @@
     </div>
     <!-- /.modal-dialog -->
 </form>
+
 <!-- /.modal -->
 
 <!-- /.modal -->
@@ -190,17 +189,18 @@
 <script type="text/javascript">
 
 
-    $('#entities-filter-form [subject]').on('change keyup', function (e) {
+    $('#entities-filter-form [blog_post_id]').select2({
+        "theme": "bootstrap4"
+    });
 
+    $('#entities-filter-form [sender_nickname]').select2({
+        "theme": "bootstrap4"
+    });
+
+    $('#entities-filter-form [sender_email]').on('change keyup', function (e) {
         $('#entities-filter-form').trigger('submit');
     });
-    $('#entities-filter-form [link_title]').on('change keyup', function (e) {
-        $('#entities-filter-form').trigger('submit');
-    });
-    $('#entities-filter-form [link_url]').on('change keyup', function (e) {
-        $('#entities-filter-form').trigger('submit');
-    });
-    $('#entities-filter-form [on_index_page]').on('change keyup', function (e) {
+    $('#entities-filter-form [status]').on('change keyup', function (e) {
         $('#entities-filter-form').trigger('submit');
     });
 
@@ -209,37 +209,38 @@
         entitiesDataTable.ajax.reload(null, true);
     });
 
+
     let entitiesDataTable = $('#entities-list-table').DataTable({
         "serverSide": true,
         "processing": true,
         "ajax": {
-            "url": "{{route('admin.slides.datatable')}}",
+            "url": "{{route('admin.comments.datatable')}}",
             "type": "post",
             "data": function (dtData) {
                 dtData["_token"] = "{{csrf_token()}}";
-                dtData["subject"] = $('#entities-filter-form [name="subject"]').val();
-                dtData["link_title"] = $('#entities-filter-form [name="link_title"]').val();
-                dtData["link_url"] = $('#entities-filter-form [name="link_url"]').val();
-                dtData["on_index_page"] = $('#entities-filter-form [name="on_index_page"]').val();
-
+                dtData["blog_post_id"] = $('#entities-filter-form [name="blog_post_id"]').val();
+                dtData["sender_nickname"] = $('#entities-filter-form [name="sender_nickname"]').val();
+                dtData["status"] = $('#entities-filter-form [name="status"]').val();
+                dtData["sender_email"] = $('#entities-filter-form [name="sender_email"]').val();
             }
         },
         "pageLength": 5,
         "lengthMenu": [5, 10, 25, 50, 100, 250, 500, 1000],
-        "order": [[1, 'desc']],
+        "order": [[6, 'desc']],
         "columns": [
             {"name": "id", "data": "id"},
-            {"name": "on_index_page", "data": "on_index_page", "className": "text-center"},
-            {"name": "subject", "data": "subject", "className": "text-center"},
-            {"name": "photo", "data": "photo", "orderable": false, "searchable": false, "className": "text-center"},
-            {"name": "link_title", "data": "link_title"},
-            {"name": "link_url", "data": "link_url"},
+            {"name": "status", "data": "status", "className": "text-center"},
+            {"name": "blog_post_id", "data": "blog_post_id", "className": "text-center"},
+            {"name": "body", "data": "body", "className": "text-center"},
+            {"name": "sender_nickname", "data": "sender_nickname"},
+            {"name": "sender_email", "data": "sender_email"},
             {"name": "created_at", "data": "created_at", "className": "text-center"},
             {"name": "actions", "data": "actions", "orderable": false, "searchable": false, "className": "text-center"}
         ]
     });
 
-    $('#entities-list-table').on('click', '[data-action="change-status"]', function (e) {
+
+    $('#entities-list-table').on('click', '[data-action="change-featured"]', function (e) {
         //e.stopPropagation();
         //e.preventDefault();
 
@@ -250,17 +251,20 @@
         $('#disable-modal [data-container="name"]').html(name);
     });
 
-    $('#entities-list-table').on('click', '[data-action="enable"]', function (e) {
+    $('#entities-list-table').on('click', '[data-action="change-featured"]', function (e) {
         //e.stopPropagation();
         //e.preventDefault();
 
-        //let id = $(this).data('id');
         let id = $(this).attr('data-id');
         let name = $(this).attr('data-name');
 
         $('#enable-modal [name="id"]').val(id);
         $('#enable-modal [data-container="name"]').html(name);
     });
+
+
+
+
 
     $('#enable-modal').on('submit', function (e) {
         e.preventDefault();
@@ -277,42 +281,21 @@
 
             // da refreshujemo datatables!!!
 
-            entitiesDataTable.ajax.reload(null, false);//drugi parametar false zaci da se NE RESETUJE paginacija
+            entitiesDataTable.ajax.reload(null, false);
 
-        }).fail(function (xhr) {
-            let systemError = "@lang('Error occured while enabling user')";
-
-            if (xhr.responseJSON && xhr.responseJSON['system_error']) {
-                systemError = xhr.responseJSON['system_error'];
-            }
-
-            toastr.error(systemError);
-
+        }).fail(function () {
+            toastr.error("@lang('Error occured while enabling comment')");
         });
     });
-
-
-    $('#entities-list-table').on('click', '[data-action="disable"]', function (e) {
-        //e.stopPropagation();
-        //e.preventDefault();
-
-        //let id = $(this).data('id');
-        let id = $(this).attr('data-id');
-        let name = $(this).attr('data-name');
-
-        $('#disable-modal [name="id"]').val(id);
-        $('#disable-modal [data-container="name"]').html(name);
-    });
-
     $('#disable-modal').on('submit', function (e) {
         e.preventDefault();
 
         $(this).modal('hide');
 
         $.ajax({
-            "url": $(this).attr('action'),
+            "url": $(this).attr('action'), //citanje actio atributa sa forme
             "type": "post",
-            "data": $(this).serialize()
+            "data": $(this).serialize() //citanje svih polja na formi  tj sve sto ima "name" atribut
         }).done(function (response) {
 
             toastr.success(response.system_message);
@@ -321,18 +304,10 @@
 
             entitiesDataTable.ajax.reload(null, false);
 
-        }).fail(function (xhr) {
-            let systemError = "@lang('Error occured while disabling user')";
-
-            if (xhr.responseJSON && xhr.responseJSON['system_error']) {
-                systemError = xhr.responseJSON['system_error'];
-            }
-
-            toastr.error(systemError);
+        }).fail(function () {
+            toastr.error("@lang('Error occured while disabling Comment')");
         });
     });
-
-
 
 </script>
 @endpush

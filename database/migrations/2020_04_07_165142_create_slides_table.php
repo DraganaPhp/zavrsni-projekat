@@ -18,7 +18,7 @@ class CreateSlidesTable extends Migration {
             $table->bigInteger('on_index_page')->default(0)->comment('if slide should be displayed on index page');
             $table->string('subject');
             $table->string('link_title');
-            $table->timestamp('link_url')->nullable();
+            $table->string('link_url');
             $table->string('photo')->nullable();
             $table->timestamps();
         });

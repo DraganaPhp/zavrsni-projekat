@@ -21,10 +21,9 @@ class SlidesController extends Controller {
         $searchFilters = $request->validate([
             'on_index_page' => ['nullable', 'in:0,1'],
             'subject' => ['nullable', 'string', 'max:255'],
-            'link_name' => ['nullable', 'string', 'max:255'],
-            'link_url' => ['nullable', 'string', 'max:13'],
+            'link_title' => ['nullable', 'string', 'max:255'],
+            'link_url' => ['nullable', 'string', 'max:25'],
         ]);
-
         $query = Slide::query();
 
         //Inicijalizacija datatables-a
@@ -47,7 +46,7 @@ class SlidesController extends Controller {
                 ->editColumn('created_at', function ($slide) {
                     return $slide->created_at->format('Y-m-d');
                 })
-                ->editColumn('status', function ($slide) {
+                ->editColumn('on_index_page', function ($slide) {
 
                     if ($slide->on_index_page == 1) {
                         return '<span class="text-success">enabled</span>';
@@ -71,7 +70,7 @@ class SlidesController extends Controller {
                     $query->orWhere('slides.subject', 'LIKE', '%' . $searchTerm . '%')
                             ->orWhere('slides.link_url', 'LIKE', '%' . $searchTerm . '%')
                             ->orWhere('slides.link_title', 'LIKE', '%' . $searchTerm . '%')
-                            ->orWhere('slides.on_index_page', 'LIKE', '%' . $searchTerm . '%')
+                          ->orWhere('slides.on_index_page', 'LIKE', '%' . $searchTerm . '%')
                             ->orWhere('slides.id', '=', $searchTerm);
                 });
             }
