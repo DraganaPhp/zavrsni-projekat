@@ -24,13 +24,15 @@ class IndexController extends Controller {
         $blogPosts = BlogPost::query()
                 ->with(['blogPostCategory', 'tags','user','comments'])
                 ->where('on_index_page',1)
-                ->orderBy('created_at')
+                ->where('status',1)
+                ->orderBy('created_at','DESC')
                 ->limit(3)
                 ->get();
         
         $latestBlogPosts = BlogPost::query()
                 ->with(['blogPostCategory', 'tags','user','comments'])
                 ->orderBy('created_at','DESC')
+                ->where('status',1)
                 ->limit(12)
                 ->get();
         

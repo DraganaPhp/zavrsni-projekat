@@ -11,7 +11,7 @@ class TagsTableSeeder extends Seeder {
      */
     public function run() {
         \DB::table('tags')->truncate();
-        $tagNames = ['Fashion', 'Sport', 'Economy', 'Techmology', 'Business'];
+        $tagNames = ['Fashion', 'Sport', 'Economy', 'Technology', 'Business'];
 
         foreach ($tagNames as $tagName) {
             \DB::table('tags')->insert([

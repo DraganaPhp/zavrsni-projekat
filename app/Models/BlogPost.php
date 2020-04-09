@@ -104,10 +104,10 @@ class BlogPost extends Model {
 
         return $this;
     }
-public function getBlogPostCategory() {
+public function getBlogPostCategoryName() {
         if (!$this->blogPostCategory) {
             return 'Uncategorized';
         }
-           return $this->blogPostCategory;
+           return $this->blogPostCategory->name;
 }
 }
