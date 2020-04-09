@@ -24,7 +24,7 @@ class BlogPostsTableSeeder extends Seeder {
             \DB::table('blog_posts')->insert([
                 'subject' => $faker->city(),
                 'body' => $faker->realtext(1500),
-                'description' => $faker->realtext(500),
+                'description' => $faker->realtext(150),
                 'blog_post_category_id' => $blogPostCategoryIds->random(),
                 'user_id' => $userIds->random(),
                 'created_at' => $faker->dateTimeBetween($startDate = '-6 months', $endDate = 'now', $timezone = null),

@@ -23,11 +23,17 @@ class Slide extends Model {
         return $this->on_index_page == self::INDEX_DISABLED;
     }
 
-    public function getPhotoUrl() {
+   /* public function getPhotoUrl() {
         if ($this->photo) {
             return url('/storage/slides/' . $this->photo);
         }
         return url('/themes/front/img/gallery-1.jpg');
+    }*/
+    public function getPhotoUrl() {
+        if ($this->photo){
+            return url('/storage/slides/' . $this->photo);
+        }
+        return url('/themes/front/img/featured-pic-1.jpeg');;
     }
 
     public function getPhotoThumbUrl() {

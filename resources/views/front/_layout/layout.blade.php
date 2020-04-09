@@ -26,9 +26,6 @@
         <!-- Tweaks for older IEs--><!--[if lt IE 9]>
             <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
             <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
-
-
-
         <!-- owl carousel 2 stylesheet-->
         <link rel="stylesheet" href="{{url('/themes/front/plugins/owl-carousel2/assets/owl.carousel.min.css')}}" id="theme-stylesheet">
         <link rel="stylesheet" href="{{url('/themes/front/plugins/owl-carousel2/assets/owl.theme.default.min.css')}}" id="theme-stylesheet">
@@ -68,9 +65,9 @@
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item"><a href="{{route('front.index.index')}}" class="nav-link active">Home</a>
                             </li>
-                            <li class="nav-item"><a href="{{route('front.blogs.index')}}" class="nav-link">Blog</a>
+                            <li class="nav-item"><a href="{{route('front.blog_posts.index')}}" class="nav-link">Blog</a>
                             </li>
-                            <li class="nav-item"><a href="{{route('front.contact.index')}}" class="nav-link">Contact</a>
+                            <li class="nav-item"><a href="{{route('front.contact.index')}}"  class="nav-link">Contact</a>
                             </li>
                         </ul>
                         <div class="navbar-text"><a href="#" class="search-btn"><i class="icon-search-1"></i></a></div>
@@ -78,14 +75,6 @@
                 </div>
             </nav>
         </header> 
-
-
-
-
-
-
-
-
         @yield('content')
         @include('front._layout.footer')
         <!-- JavaScript files-->
@@ -95,8 +84,6 @@
         <script src="{{url('/themes/front/vendor/jquery.cookie/jquery.cookie.js')}}"></script>
         <script src="{{url('/themes/front/vendor/@fancyapps/fancybox/jquery.fancybox.min.js')}}"></script>
         <script src="{{url('/themes/front/js/front.js')}}"></script>
-
-
         <script src="{{url('/themes/front/plugins/owl-carousel2/owl.carousel.min.js')}}"></script>
         <script>
     $("#index-slider").owlCarousel({

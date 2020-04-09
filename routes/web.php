@@ -16,10 +16,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'IndexController@index')->name('front.index.index');
 ;
-Route::get('/blogs', 'BlogsController@index')->name('front.blogs.index');
+Route::get('/blog-posts', 'BlogPostsController@index')->name('front.blog_posts.index');
 
 
-Route::get('/blogs/single/{blog}', 'BlogsController@single')->name('front.blogs.single');
+Route::get('/blogs/single/{blog}', 'BlogPostsController@single')->name('front.blog_posts.single');
 
 
 Route::get('/contact-us', 'ContactController@index')->name('front.contact.index');

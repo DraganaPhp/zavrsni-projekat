@@ -4,15 +4,29 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Mail\ContactFormMail;
+use App\Models\BlogPost;
+use App\Models\BlogPostCategory;
 
 class ContactController extends Controller {
 
     public function index(Request $request) {
 
         $systemMessage = session()->pull('system_message');
+        $latestBlogPosts = BlogPost::query()
+                ->with(['blogPostCategory', 'tags', 'user', 'comments'])
+                ->orderBy('created_at', 'DESC')
+                ->limit(3)
+                ->get();
+        
+         $blogPostCategories = BlogPostCategory::query()
+                ->orderBy('priority')
+                ->limit(4)
+                ->get();
 
         return view('front.contact.index', [
             'systemMessage' => $systemMessage,
+            'latestBlogPosts' => $latestBlogPosts,
+            'blogPostCategories' => $blogPostCategories,
         ]);
     }
 
