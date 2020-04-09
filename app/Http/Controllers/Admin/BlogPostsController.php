@@ -340,4 +340,8 @@ class BlogPostsController extends Controller {
         }
     }
 
+    Public function totalViews(){
+        $views= $views + Cache::increment('views_number');
+return $views;
+    }
 }

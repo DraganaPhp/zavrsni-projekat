@@ -33,22 +33,6 @@
                     <div class="card-header">
                         <h3 class="card-title">@lang('All Tags')</h3>
                         <div class="card-tools">
-                            <form style="display:none;"id="change-priority-form" class="btn-group" action="{{route('admin.slides.change_priorities')}}" method="post">
-                                @csrf
-                                <input type="hidden" name="priorities" value="">
-                                <button type="submit" class="btn btn-outline-success">
-                                    <i class="fas fa-check"></i>
-                                    @lang('Save Order')
-                                </button>
-                                <button type="button" data-action="hide-order" class="btn btn-outline-danger">
-                                    <i class="fas fa-remove"></i>
-                                    @lang('Cancel')
-                                </button>
-                            </form>
-                            <button data-action="show-order" class="btn btn-outline-secondary">
-                                <i class="fas fa-sort"></i>
-                                @lang('Change Order')
-                            </button>
                             <a href="{{route('admin.tags.add')}}" class="btn btn-success">
                                 <i class="fas fa-plus-square"></i>
                                 @lang('Add new Tag')

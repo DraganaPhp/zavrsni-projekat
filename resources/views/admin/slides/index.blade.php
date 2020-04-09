@@ -255,7 +255,13 @@
 
 @endsection
 
+@push('head_links')
+<link href="{{url('/themes/admin/plugins/jquery-ui/jquery-ui.min.css')}}" rel="stylesheet" type="text/css"/>
+
+<link href="{{url('/themes/admin/plugins/jquery-ui/jquery-ui.theme.min.css')}}" rel="stylesheet" type="text/css"/>
+@endpush
 @push('footer_javascript')
+<script src="{{url('/themes/admin/plugins/jquery-ui/jquery-ui.min.js')}}" type="text/javascript"></script>
 <script type="text/javascript">
     $('#entities-list-table').on('click', '[data-action="delete"]', function (e) {
         //e.stopPropagation();

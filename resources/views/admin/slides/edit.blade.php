@@ -88,7 +88,7 @@
                                         <div class="input-group">
                                             <input 
                                                 name="link_url"
-                                                value="{{old('link_url,$slide->link_url')}}"
+                                                value="{{old('link_url',$slide->link_url)}}"
                                                 type="text" 
                                                 class="form-control @if($errors->has('link_url')) is-invalid @endif" 
                                                 placeholder="Enter link url"
