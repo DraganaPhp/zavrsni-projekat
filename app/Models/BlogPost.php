@@ -73,7 +73,7 @@ class BlogPost extends Model {
         }
 
 
-        return url('/themes/front/img/blog-post-1.jpeg');
+        return url('/themes/front/img/small-thumbnail-1.jpg');
     }
 
     public function deletePhoto() {
@@ -104,10 +104,12 @@ class BlogPost extends Model {
 
         return $this;
     }
-public function getBlogPostCategoryName() {
+
+    public function getBlogPostCategoryName() {
         if (!$this->blogPostCategory) {
             return 'Uncategorized';
         }
-           return $this->blogPostCategory->name;
-}
+        return $this->blogPostCategory->name;
+    }
+
 }

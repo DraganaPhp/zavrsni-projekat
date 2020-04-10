@@ -335,7 +335,7 @@ class BlogPostsController extends Controller {
                     ->save();
 
             \Image::make(public_path('/storage/blog_posts/' . $blogPost->photo))
-                    ->fit(256, 256)
+                    ->fit(60, 60)
                     ->save(public_path('/storage/blog_posts/thumbs/' . $blogPost->photo));
         }
     }

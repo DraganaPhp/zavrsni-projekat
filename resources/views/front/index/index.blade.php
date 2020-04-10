@@ -7,10 +7,10 @@
 <!-- Hero Section-->
 <div id="index-slider" class="owl-carousel">
     @foreach($slides as $slide)
-    @include('front.index.single_slide', [
+    @include('front.index.partials.single_slide', [
     'slide' => $slide]
     )
-    @endforeach)
+    @endforeach
 </div>
 <!-- Intro Section-->
 <section class="intro">
@@ -26,7 +26,7 @@
 <section class="featured-posts no-padding-top">
     <div class="container">
         @foreach($blogPosts as $order=>$blogPost)
-        @include('front.index.intro_blog_post', [
+        @include('front.index.partials.intro_blog_post', [
         'blogPost' => $blogPost]
         )
         @endforeach 
@@ -55,7 +55,7 @@
             @foreach($latestBlogCollections as $latestBlogCollection)
             <div class="row">
                 @foreach($latestBlogCollection as $latestBlogPost) 
-                @include('front.index.latest_post', [
+                @include('front.index.partials.latest_post', [
                 'latestBlogPost' => $latestBlogPost]
                 )
                 @endforeach

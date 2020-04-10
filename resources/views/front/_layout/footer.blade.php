@@ -44,8 +44,10 @@
                         </div></a>
                     @endforeach
             </div>
+                    </div>
         </div>
     </div>
+        </div>
     <div class="copyrights">
         <div class="container">
           <div class="row">

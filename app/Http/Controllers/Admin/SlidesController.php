@@ -176,7 +176,7 @@ class SlidesController extends Controller {
             $slide->save();
 
 
-          /*  \Image::make(public_path('/storage/slides/' . $slide->photo))
+           /* \Image::make(public_path('/storage/slides/' . $slide->photo))
                     ->fit(300, 300)
                     ->save();*/
         }
