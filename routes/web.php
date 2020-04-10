@@ -17,9 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'IndexController@index')->name('front.index.index');
 ;
 Route::get('/blog-posts', 'BlogPostsController@index')->name('front.blog_posts.index');
-
-
 Route::get('/blogs/single/{blogPost}', 'BlogPostsController@single')->name('front.blog_posts.single');
+Route::get('/blogs/author/{blogPost}', 'BlogPostsController@blogPostsAuthor')->name('front.blog_posts.blog_posts_author');
+Route::get('/blogs/category/{blogPost}', 'BlogPostsController@blogPostsCategory')->name('front.blog_posts.blog_posts_category');
 
 
 Route::get('/contact-us', 'ContactController@index')->name('front.contact.index');

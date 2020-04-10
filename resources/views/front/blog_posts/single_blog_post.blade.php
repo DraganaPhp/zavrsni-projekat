@@ -119,13 +119,11 @@
             @include('front.blog_posts.partials.widget_search_bar',[
             'blogPost' => $blogPost,
             'tags' => $tags,
-            'blogPost' => $blogPost,
-            'blogPost' => $blogPost,
             'mostViewedBlogPosts' => $mostViewedBlogPosts,
             'blogPostCategories' => $blogPostCategories,
 
             ]
-            ))
+            )
         </aside>
     </div>
 </div>

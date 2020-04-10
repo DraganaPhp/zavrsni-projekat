@@ -1,6 +1,6 @@
 @extends('front._layout.layout')
 
-@section('seo_title', 'Index Page')
+@section('seo_title', 'Blog Posts by Author')
 
 @section('content')
 
@@ -9,19 +9,25 @@
         <!-- Latest Posts -->
         <main class="posts-listing col-lg-8"> 
             <div class="container">
+                <h2 class="mb-3 author d-flex align-items-center flex-wrap">
+                    <div class="avatar"><img src="{{$blogPost->user->getPhotoUrl()}}" alt="..." class="img-fluid rounded-circle"></div>
+                    <div class="title">
+                        <span>Posts by author "{{$blogPost->user->name}}"</span>
+                    </div>
+                </h2>
                 <div class="row">
                     <!-- post -->
-                    @foreach($blogPosts as $blogPost)
+                    @foreach ($blogPosts as $blogPost)
                     <div class="post col-xl-6">
-                        <div class="post-thumbnail"><a href="{{route('front.blog_posts.single',['blogPost'=>$blogPost->id])}}"><img src="{{$blogPost->getPhotoUrl()}}" alt="..." class="img-fluid"></a></div>
+                        <div class="post-thumbnail"><a href="blog-post.html"><img src="{{$blogPost->getPhotoUrl()}}" alt="..." class="img-fluid"></a></div>
                         <div class="post-details">
                             <div class="post-meta d-flex justify-content-between">
                                 <div class="date meta-last">20 May | 2016</div>
-                                <div class="category"><a href="{{route('front.blog_posts.blog_posts_category',['blogPostCategory'=>$blogPost->blogPostCategory->id])}}">{{$blogPost->getBlogPostCategoryName()}}</a></div>
+                                <div class="category"><a href="{{route('front.blog_posts.blog_posts_category',['blogPost'=>$blogPost->id])}}">{{$blogPost->getBlogPostCategoryName()}}</a></div>
                             </div><a href="{{route('front.blog_posts.single',['blogPost'=>$blogPost->id])}}">
                                 <h3 class="h4">{{$blogPost->subject}}</h3></a>
                             <p class="text-muted">{{$blogPost->description}}</p>
-                            <footer class="post-footer d-flex align-items-center"><a href="{{route('front.blog_posts.blog_posts_author',['user'=>$blogPost->user->id])}}" class="author d-flex align-items-center flex-wrap">
+                            <footer class="post-footer d-flex align-items-center"><a href="{{route('front.blog_posts.blog_posts_author',['blogPost'=>$blogPost->id])}}" class="author d-flex align-items-center flex-wrap">
                                     <div class="avatar"><img src="{{$blogPost->user->getPhotoUrl()}}" alt="..." class="img-fluid"></div>
                                     <div class="title"><span>{{$blogPost->user->name}}</span></div></a>
                                 <div class="date"><i class="icon-clock"></i> 2 months ago</div>
@@ -30,29 +36,27 @@
                         </div>
                     </div>
                     @endforeach
-
                 </div>
                 <!-- Pagination -->
                 <nav aria-label="Page navigation example">
-                    <ul class="pagination pagination-template d-flex justify-content-center">
-                        {{$blogPosts->links()}}
-                    </ul>
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination pagination-template d-flex justify-content-center">
+                            {{$blogPosts->links()}}
+                        </ul>
+                    </nav>
                 </nav>
             </div>
         </main>
         <aside class="col-lg-4">
-            @include('front.blog_posts.partials.widget_search_bar',[
-            'blogPost' => $blogPost,
-            'tags' => $tags,
-            'blogPost' => $blogPost,
-            'blogPost' => $blogPost,
-            'mostViewedBlogPosts' => $mostViewedBlogPosts,
-            'blogPostCategories' => $blogPostCategories,
+        @include('front.blog_posts.partials.widget_search_bar',[
+        'blogPost' => $blogPost,
+        'tags' => $tags,
+        'mostViewedBlogPosts' => $mostViewedBlogPosts,
+        'blogPostCategories' => $blogPostCategories,
 
-            ]
-            )
-        </aside>
+        ]
+        )
+         </aside>
     </div>
 </div>
-
 @endsection

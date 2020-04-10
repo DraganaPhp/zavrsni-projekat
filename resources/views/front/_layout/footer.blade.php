@@ -29,7 +29,7 @@
                     </ul>
                     <ul class="list-unstyled">
                         @foreach($blogPostCategories as $blogPostCategory)
-                        <li> <a href="blog-category.html">{{$blogPostCategory->name}}</a></li>
+                        <li> <a href="#">{{$blogPostCategory->name}}</a></li>
                         @endforeach
                     </ul>
                 </div>
@@ -37,7 +37,7 @@
             <div class="col-md-4">
                 <div class="latest-posts">
                 @foreach($latestBlogPosts as $latestBlogPost)
-                <a href="blog-post.html">
+                <a href="{{route('front.blog_posts.single',['blogPost'=>$latestBlogPost->id])}}">
                         <div class="post d-flex align-items-center">
                             <div class="image"><img src="{{$latestBlogPost->getPhotoThumbUrl()}}" alt="..." class="img-fluid"></div>
                             <div class="title"><strong>{{$latestBlogPost->subject}}</strong><span class="date last-meta">October 26, 2016</span></div>
@@ -47,7 +47,7 @@
                     </div>
         </div>
     </div>
-        </div>
+
     <div class="copyrights">
         <div class="container">
           <div class="row">

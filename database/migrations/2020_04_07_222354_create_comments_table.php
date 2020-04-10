@@ -16,7 +16,7 @@ class CreateCommentsTable extends Migration {
             $table->bigIncrements('id');
             $table->bigInteger('status')->default(1);
             $table->string('subject');
-            $table->string('body');
+            $table->text('body');
             $table->bigInteger('blog_post_id');
             $table->string('sender_email');
             $table->string('sender_nickname');

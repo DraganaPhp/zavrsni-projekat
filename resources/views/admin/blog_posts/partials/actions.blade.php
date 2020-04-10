@@ -1,6 +1,6 @@
 
 <div class="btn-group">
-    <a href=# class="btn btn-info" target="_blank" title="View Blog Post details">
+    <a href="{{route('front.blog_posts.single',['blogPost'=>$blogPost->id])}}" class="btn btn-info" target="_blank" title="View Blog Post details">
         <i class="fas fa-info-circle"></i>
     </a>
     <a href="{{route('admin.blog_posts.edit',['blogPost'=>$blogPost->id])}}" class="btn btn-info" title="Edit Blog Post">

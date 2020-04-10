@@ -87,18 +87,18 @@ class CommentsController extends Controller {
 
 
             if (isset($searchFilters['status'])) {
-                $query->where('comments.status', 'LIKE', '%' . $searchFilters['status'] . '%');
+                $query->where('comments.status', '=', '%' . $searchFilters['status'] . '%');
             }
 
-            /* if (isset($searchFilters['blog_post_id'])) {
-              $query->where('comments.blog_post_id', '=', $searchFilters['blog_post_id']);
-              } */
+            if (isset($searchFilters['blog_post_subject'])) {
+              $query->where('blog_posts.blog_post_subject', 'LIKE', $searchFilters['blog_post_subject']);
+              } 
 
             if (isset($searchFilters['sender_name'])) {
-                $query->where('sender_nickname', '=', $searchFilters['sender_nickname']);
+                $query->where('sender_nickname', 'LIKE', $searchFilters['sender_nickname']);
             }
             if (isset($searchFilters['sender_email'])) {
-                $query->where('sender_email', '=', $searchFilters['sender_email']);
+                $query->where('sender_email', 'LIKE', $searchFilters['sender_email']);
             }
         });
 

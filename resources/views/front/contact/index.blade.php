@@ -15,7 +15,6 @@
     </div>
 </section>
 <div class="container">
-
     <div class="row">
         <!-- Latest Posts -->
         <main class="col-lg-8"> 

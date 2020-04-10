@@ -22,7 +22,7 @@ class BlogPost extends Model {
         return $this->belongsTo(
                         BlogPostCategory::class,
                         'blog_post_category_id',
-                        'id',
+                        'id'
         );
     }
 
@@ -40,7 +40,7 @@ class BlogPost extends Model {
         return $this->belongsTo(
                         User::class,
                         'user_id',
-                        'id',
+                        'id'
         );
     }
 
