@@ -3,12 +3,7 @@
     <header>
         <h3 class="h6">@lang('Search the blog')</h3>
     </header>
-    <form action="blog-search.html" class="search-form">
-        <div class="form-group">
-            <input type="search" placeholder="What are you looking for?">
-            <button type="submit" class="submit"><i class="icon-search"></i></button>
-        </div>
-    </form>
+    @include('front.blog_posts.partials.search_form')
 </div>
 <!-- Widget [Latest Posts Widget]        -->
 <div class="widget latest-posts">
@@ -36,7 +31,8 @@
         <h3 class="h6">@lang('Categories')</h3>
     </header>
     @foreach($blogPostCategories as $blogPostCategory)
-    <div class="item d-flex justify-content-between"><a href="blog-category.html">{{$blogPostCategory->name}}</a><span>{{$blogPostCategory->blog_posts()->count()}}</span></div>
+    <div class="item d-flex justify-content-between">
+        <a href="{{route('front.blog_posts.blog_posts_category',['blogPost'=>App\Models\BlogPost::query()->where('blog_post_category_id',$blogPostCategory->id)->first()])}}">{{$blogPostCategory->name}}</a><span>{{$blogPostCategory->blog_posts()->count()}}</span></div>
     @endforeach
 </div>
 <!-- Widget [Tags Cloud Widget]-->
@@ -46,7 +42,7 @@
     </header>
     <ul class="list-inline">
         @foreach($tags as $tag)
-        <li class="list-inline-item"><a href="blog-tag.html" class="tag">#{{$tag->name}}</a></li>
+        <li class="list-inline-item"><a href="{{route('front.blog_posts.blog_posts_tag',['tag'=>$tag->id])}}" class="tag">#{{$tag->name}} - {{$tag->blogPosts()->count()}}</a></li>
         @endforeach
     </ul>
 </div>

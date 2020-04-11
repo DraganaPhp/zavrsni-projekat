@@ -20,6 +20,9 @@ Route::get('/blog-posts', 'BlogPostsController@index')->name('front.blog_posts.i
 Route::get('/blogs/single/{blogPost}', 'BlogPostsController@single')->name('front.blog_posts.single');
 Route::get('/blogs/author/{blogPost}', 'BlogPostsController@blogPostsAuthor')->name('front.blog_posts.blog_posts_author');
 Route::get('/blogs/category/{blogPost}', 'BlogPostsController@blogPostsCategory')->name('front.blog_posts.blog_posts_category');
+Route::get('/blogs/tag/{tag}', 'BlogPostsController@blogPostsTag')->name('front.blog_posts.blog_posts_tag');
+//Route::post('/blogs/search', 'BlogPostsController@blogPostsSearch')->name('front.blog_posts.blog_posts_search');
+Route::get('/blogs/search', 'BlogPostsController@blogPostsSearch')->name('front.blog_posts.blog_posts_search');
 
 
 Route::get('/contact-us', 'ContactController@index')->name('front.contact.index');

@@ -1,6 +1,6 @@
 @extends('front._layout.layout')
 
-@section('seo_title', 'Blog Posts by Category')
+@section('seo_title', 'Blog Posts by Tag')
 
 @section('content')
 <div class="container">
@@ -8,7 +8,7 @@
         <!-- Latest Posts -->
         <main class="posts-listing col-lg-8"> 
             <div class="container">
-                <h2 class="mb-3">Category "{{$blogPost->blogPostCategory->name}}"</h2>
+                <h2 class="mb-3">Tag "{{$tag->name}}"</h2>
                 @include('front.blog_posts.partials.listed_blog_posts')
             </div>
         </main>
@@ -17,8 +17,7 @@
             'tags' => $tags,
             'mostViewedBlogPosts' => $mostViewedBlogPosts,
             'blogPostCategories' => $blogPostCategories,
-            ]
-            )
+            ])
         </aside>
     </div>
 </div>

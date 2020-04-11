@@ -43,12 +43,7 @@
                         <div class="close-btn"><i class="icon-close"></i></div>
                         <div class="row d-flex justify-content-center">
                             <div class="col-md-8">
-                                <form action="blog-search.html">
-                                    <div class="form-group">
-                                        <input type="search" name="search" id="search" placeholder="What are you looking for?">
-                                        <button type="submit" class="submit"><i class="icon-search-1"></i></button>
-                                    </div>
-                                </form>
+                                @include('front.blog_posts.partials.search_form')
                             </div>
                         </div>
                     </div>
@@ -70,7 +65,7 @@
                             <li class="nav-item"><a href="{{route('front.contact.index')}}"  class="nav-link">Contact</a>
                             </li>
                         </ul>
-                        <div class="navbar-text"><a href="#" class="search-btn"><i class="icon-search-1"></i></a></div>
+                        <div class="navbar-text"><a href="{{route('front.blog_posts.blog_posts_search')}}" class="search-btn"><i class="icon-search-1"></i></a></div>
                     </div>
                 </div>
             </nav>

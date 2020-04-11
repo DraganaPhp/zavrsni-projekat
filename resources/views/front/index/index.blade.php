@@ -56,8 +56,8 @@
             <div class="row">
                 @foreach($latestBlogCollection as $latestBlogPost) 
                 @include('front.index.partials.latest_post', [
-                'latestBlogPost' => $latestBlogPost]
-                )
+                'latestBlogPost' => $latestBlogPost
+                ])
                 @endforeach
             </div>
             @endforeach

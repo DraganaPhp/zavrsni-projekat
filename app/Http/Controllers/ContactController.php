@@ -17,8 +17,8 @@ class ContactController extends Controller {
                 ->orderBy('created_at', 'DESC')
                 ->limit(3)
                 ->get();
-        
-         $blogPostCategories = BlogPostCategory::query()
+
+        $blogPostCategories = BlogPostCategory::query()
                 ->orderBy('priority')
                 ->limit(4)
                 ->get();

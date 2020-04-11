@@ -30,6 +30,7 @@ class BlogPostsController extends Controller {
                         ->limit(3)->get();
 
         $tags = Tag::query()
+                ->withCount('blogPosts')->orderBy('blog_posts_count', 'desc')
                 ->get();
 
         $users = User::query()
@@ -60,7 +61,7 @@ class BlogPostsController extends Controller {
                 ->get();
 
         $tags = Tag::query()
-                //->orderBy('priority')
+                ->withCount('blogPosts')->orderBy('blog_posts_count', 'desc')
                 ->get();
         $latestBlogPosts = BlogPost::query()
                 ->with(['blogPostCategory', 'tags', 'user', 'comments'])
@@ -106,7 +107,7 @@ class BlogPostsController extends Controller {
                 ->get();
 
         $tags = Tag::query()
-                //->orderBy('priority')
+                ->withCount('blogPosts')->orderBy('blog_posts_count', 'desc')
                 ->get();
         $latestBlogPosts = BlogPost::query()
                 ->with(['blogPostCategory', 'tags', 'user', 'comments'])
@@ -146,8 +147,9 @@ class BlogPostsController extends Controller {
                 ->get();
 
         $tags = Tag::query()
-                //->orderBy('priority')
+                ->withCount('blogPosts')->orderBy('blog_posts_count', 'desc')
                 ->get();
+
         $latestBlogPosts = BlogPost::query()
                 ->with(['blogPostCategory', 'tags', 'user', 'comments'])
                 ->where('status', 1)
@@ -168,6 +170,86 @@ class BlogPostsController extends Controller {
             'blogPostCategories' => $blogPostCategories,
             'latestBlogPosts' => $latestBlogPosts,
             'tags' => $tags,
+        ]);
+    }
+
+    public function blogPostsTag(Tag $tag) {
+
+        $blogPosts = $tag->blogPosts()->paginate(12);
+
+        $blogPostCategories = BlogPostCategory::query()
+                ->orderBy('priority')
+                ->limit(4)
+                ->get();
+
+        $tags = Tag::query()
+                ->withCount('blogPosts')->orderBy('blog_posts_count', 'desc')
+                ->get();
+
+        $latestBlogPosts = BlogPost::query()
+                ->with(['blogPostCategory', 'tags', 'user', 'comments'])
+                ->where('status', 1)
+                ->orderBy('created_at', 'DESC')
+                ->limit(3)
+                ->get();
+
+
+        $mostViewedBlogPosts = BlogPost::query()->
+                        orderby('views', 'DESC')
+                        ->limit(3)->get();
+
+
+        return view('front.blog_posts.blog_posts_tag', [
+            'blogPosts' => $blogPosts,
+            'mostViewedBlogPosts' => $mostViewedBlogPosts,
+            'blogPostCategories' => $blogPostCategories,
+            'latestBlogPosts' => $latestBlogPosts,
+            'tags' => $tags,
+            'tag' => $tag,
+        ]);
+    }
+
+    public function blogPostsSearch(Request $request) {
+        $formData = $request->validate([
+            'search_term' => ['required', 'string', 'min:4', 'max:255']
+        ]);
+        $searchTerm = $formData['search_term'];
+
+        $blogPosts = BlogPost::query()->where('blog_posts.subject', 'LIKE', '%' . $searchTerm . '%')
+                ->orWhere('blog_posts.subject', 'LIKE', '%' . $searchTerm . '%')
+                ->orWhere('blog_posts.description', 'LIKE', '%' . $searchTerm . '%')
+                ->orWhere('blog_posts.body', 'LIKE', '%' . $searchTerm . '%')
+                ->paginate(4);
+
+        $blogPostCategories = BlogPostCategory::query()
+                ->orderBy('priority')
+                ->limit(4)
+                ->get();
+
+        $tags = Tag::query()
+                ->withCount('blogPosts')->orderBy('blog_posts_count', 'desc')
+                ->get();
+
+        $latestBlogPosts = BlogPost::query()
+                ->with(['blogPostCategory', 'tags', 'user', 'comments'])
+                ->where('status', 1)
+                ->orderBy('created_at', 'DESC')
+                ->limit(3)
+                ->get();
+
+
+        $mostViewedBlogPosts = BlogPost::query()->
+                        orderby('views', 'DESC')
+                        ->limit(3)->get();
+
+
+        return view('front.blog_posts.blog_posts_search', [
+            'blogPosts' => $blogPosts,
+            'mostViewedBlogPosts' => $mostViewedBlogPosts,
+            'blogPostCategories' => $blogPostCategories,
+            'latestBlogPosts' => $latestBlogPosts,
+            'tags' => $tags,
+            'searchTerm' => $searchTerm,
         ]);
     }
 

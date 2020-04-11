@@ -15,8 +15,9 @@ class Tag extends Model {
                         BlogPost::class,
                         'blog_post_tags',
                         'tag_id',
-                        'blog_post_id',
+                        'blog_post_id'
         );
     }
 
+    
 }

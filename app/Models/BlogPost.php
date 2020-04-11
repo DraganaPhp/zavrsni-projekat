@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\User;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class BlogPost extends Model {
 
@@ -111,5 +112,14 @@ class BlogPost extends Model {
         }
         return $this->blogPostCategory->name;
     }
-
+ 
+    public function getBlogPostCategory() {
+        if (!$this->blogPostCategory) {
+            return 'Uncategorized';
+        }
+        return $this->blogPostCategory->name;
+    }
+    
+   
+    
 }

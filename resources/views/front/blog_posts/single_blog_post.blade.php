@@ -11,10 +11,10 @@
                     <div class="post-thumbnail"><img src="{{$blogPost->getPhotoUrl()}}" alt="..." class="img-fluid"></div>
                     <div class="post-details">
                         <div class="post-meta d-flex justify-content-between">
-                            <div class="category"><a href="blog-category.html">{{$blogPost->getBlogPostCategoryName()}}</a></div>
+                            <div class="category"><a href="{{route('front.blog_posts.blog_posts_category',['blogPost'=>$blogPost->id])}}">{{$blogPost->getBlogPostCategoryName()}}</a></div>
                         </div>
                         <h1>{{$blogPost->subject}}<a href="#"><i class="fa fa-bookmark-o"></i></a></h1>
-                        <div class="post-footer d-flex align-items-center flex-column flex-sm-row"><a href="#" class="author d-flex align-items-center flex-wrap">
+                        <div class="post-footer d-flex align-items-center flex-column flex-sm-row"><a href="{{route('front.blog_posts.blog_posts_author',['blogPost'=>$blogPost->id])}}" class="author d-flex align-items-center flex-wrap">
                                 <div class="avatar"><img src="{{$blogPost->user->getPhotoUrl()}}" alt="..." class="img-fluid"></div>
                                 <div class="title"><span>{{$blogPost->user->name}}</span></div></a>
                             <div class="d-flex align-items-center flex-wrap">       
@@ -26,8 +26,11 @@
                         <div class="post-body">
                             {{$blogPost->body}}
                         </div>
-                        <div class="post-tags"><a href="blog-tag.html" class="tag">#Business</a><a href="blog-tag.html" class="tag">#Tricks</a><a href="blog-tag.html" class="tag">#Financial</a><a href="blog-tag.html" class="tag">#Economy</a></div>
-
+                        <div class="post-tags">
+                            @foreach($blogPost->tags as $blogPostTag)
+                            <a href="{{route('front.blog_posts.blog_posts_tag',['tag'=>$blogPostTag->id])}}" class="tag"># {{$blogPostTag->name}}</a>
+                            @endforeach
+                        </div>
 
                         <div class="posts-nav d-flex justify-content-between align-items-stretch flex-column flex-md-row">
                             @if($previousBlogPost)
@@ -37,9 +40,6 @@
                                 <div class="icon prev"><i class="fa fa-angle-left"></i></div>
                                 <div class="text"><strong class="text-primary">Previous Post </strong>
                                     <h6>{{$previousBlogPost->subject}}</h6>
-
-
-
                                 </div></a>
                             @endif
 
