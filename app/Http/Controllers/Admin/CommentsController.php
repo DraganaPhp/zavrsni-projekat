@@ -91,14 +91,14 @@ class CommentsController extends Controller {
             }
 
             if (isset($searchFilters['blog_post_subject'])) {
-              $query->where('blog_posts.blog_post_subject', 'LIKE', $searchFilters['blog_post_subject']);
+              $query->where('blog_posts.subject', 'LIKE', '%' . $searchFilters['blog_post_subject']. '%');
               } 
 
-            if (isset($searchFilters['sender_name'])) {
-                $query->where('sender_nickname', 'LIKE', $searchFilters['sender_nickname']);
+            if (isset($searchFilters['sender_nickname'])) {
+                $query->where('sender_nickname', 'LIKE', '%' . $searchFilters['sender_nickname']. '%');
             }
             if (isset($searchFilters['sender_email'])) {
-                $query->where('sender_email', 'LIKE', $searchFilters['sender_email']);
+                $query->where('sender_email', 'LIKE', '%' . $searchFilters['sender_email']. '%');
             }
         });
 

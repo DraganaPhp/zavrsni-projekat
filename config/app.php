@@ -153,6 +153,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Biscolab\ReCaptcha\ReCaptchaServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
+        Barryvdh\Elfinder\ElfinderServiceProvider::class
     ],
     /*
       |--------------------------------------------------------------------------

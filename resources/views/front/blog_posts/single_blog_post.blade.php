@@ -24,7 +24,7 @@
                             </div>
                         </div>
                         <div class="post-body">
-                            {{$blogPost->body}}
+                            {!!$blogPost->body!!}
                         </div>
                         <div class="post-tags">
                             @foreach($blogPost->tags as $blogPostTag)

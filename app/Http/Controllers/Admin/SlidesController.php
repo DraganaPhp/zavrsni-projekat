@@ -60,7 +60,7 @@ class SlidesController extends Controller {
             'subject' => ['required', 'string', 'max:255', Rule::unique('slides')->ignore($slide->id)],
             'link_title' => ['required', 'string', 'max:255'],
             'link_url' => ['nullable', 'string'],
-            'photo' => ['nullable', 'file', 'image'],
+            'photo' => ['required', 'file', 'image'],
         ]);
 
         $slide->fill($formData);
@@ -176,9 +176,9 @@ class SlidesController extends Controller {
             $slide->save();
 
 
-           /* \Image::make(public_path('/storage/slides/' . $slide->photo))
-                    ->fit(300, 300)
-                    ->save();*/
+            /* \Image::make(public_path('/storage/slides/' . $slide->photo))
+              ->fit(300, 300)
+              ->save(); */
         }
     }
 

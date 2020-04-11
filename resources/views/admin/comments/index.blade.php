@@ -182,24 +182,20 @@
 
 @push('footer_javascript')
 <script type="text/javascript">
-
-
-    $('#entities-filter-form [blog_post_subject]').select2({
-        "theme": "bootstrap4"
+    
+    $('#entities-filter-form [blog_post_subject]').on('change keyup', function (e) {
+        $('#entities-filter-form').trigger('submit');
     });
 
-    $('#entities-filter-form [sender_nickname]').select2({
-        "theme": "bootstrap4"
+    $('#entities-filter-form [sender_nickname]').on('change keyup', function (e) {
+        $('#entities-filter-form').trigger('submit');
     });
 
     $('#entities-filter-form [sender_email]').on('change keyup', function (e) {
         $('#entities-filter-form').trigger('submit');
     });
-    $('#entities-filter-form [status]').on('change keyup', function (e) {
-        $('#entities-filter-form').trigger('submit');
-    });
 
-    $('#entities-filter-form').on('submit', function (e) {
+     $('#entities-filter-form').on('submit', function (e) {
         e.preventDefault();
         entitiesDataTable.ajax.reload(null, true);
     });

@@ -114,34 +114,6 @@
                                     </div>
 
                                 </div>
-                                <div class="offset-md-3 col-md-3">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label>Photo</label>
-
-                                                <div class="text-right">
-                                                    <button 
-                                                        type="button" 
-                                                        class="btn btn-sm btn-outline-danger"
-                                                        data-action="delete-photo"
-                                                        >
-                                                        <i class="fas fa-remove"></i>
-                                                        Delete Photo
-                                                    </button>
-                                                </div>
-                                                <div class="text-center">
-                                                    <img 
-                                                        src="{{$slide->getPhotoUrl()}}" 
-                                                        alt="" 
-                                                        class="img-fluid"
-                                                        data-container="photo"
-                                                        >
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
 
                         </div>
@@ -176,7 +148,10 @@
             },
             "link_name": {
                 "required": true,
-                "maxlength": 255
+                "maxlength": 255    
+            },
+            "photo": {
+                "required": true,   
             }
         },
         errorElement: 'span',

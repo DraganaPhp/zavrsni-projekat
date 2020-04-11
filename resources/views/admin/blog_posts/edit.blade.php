@@ -197,7 +197,14 @@
 @push('footer_javascript')
 <script src="/themes/admin/plugins/ckeditor/ckeditor.js" type="text/javascript"></script>
 <script src="/themes/admin/plugins/ckeditor/adapters/jquery.js" type="text/javascript"></script>
+<script src="/themes/admin/plugins/ckeditor/ckeditor.js" type="text/javascript"></script>
+<script src="/themes/admin/plugins/ckeditor/ckeditor.js" type="text/javascript"></script>
 <script type="text/javascript">
+     $('#entity-form [name="body"]').ckeditor({
+        "height":"400px",
+        "filebrowserBrowseUrl":"{{route('elfinder.ckeditor')}}"
+    });
+    
     $('#entity-form').on('click', '[data-action="delete-photo"]', function (e) {
         e.preventDefault();
 
