@@ -69,7 +69,7 @@ class BlogPostsController extends Controller {
                 ->orderBy('created_at', 'DESC')
                 ->limit(3)
                 ->get();
-
+        $comments = $blogPost->comments();
 
         $mostViewedBlogPosts = BlogPost::query()->
                         orderby('views', 'DESC')
@@ -86,6 +86,7 @@ class BlogPostsController extends Controller {
             'previousBlogPost' => $previousBlogPost,
             'nextBlogPost' => $nextBlogPost,
             'tags' => $tags,
+            'comments' => $comments,
         ]);
     }
 

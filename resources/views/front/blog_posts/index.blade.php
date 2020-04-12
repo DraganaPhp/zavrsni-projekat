@@ -20,7 +20,7 @@
                         </div>
                         <div class="post-details">
                             <div class="post-meta d-flex justify-content-between">
-                                <div class="date meta-last">20 May | 2016</div>
+                                <div class="date meta-last">{{$blogPost->created_at->format('d F | Y')}}</div>
                                 <div class="category">
                                     <a href="{{route('front.blog_posts.blog_posts_category',['blogPost'=>$blogPost->id])}}">
                                         {{$blogPost->getBlogPostCategoryName()}}
@@ -36,7 +36,7 @@
                                     <div class="avatar"><img src="{{$blogPost->user->getPhotoUrl()}}" alt="..." class="img-fluid"></div>
                                     <div class="title"><span>{{$blogPost->user->name}}</span></div>
                                 </a>
-                                <div class="date"><i class="icon-clock"></i> {{$blogPost->created_at}}</div>
+                                <div class="date"><i class="icon-clock"></i>{{$blogPost->CratedAt()}}</div>
                                 <div class="comments meta-last"><i class="icon-comment"></i>{{$blogPost->comments->count()}}</div>
                             </footer>
                         </div>

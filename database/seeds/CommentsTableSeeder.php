@@ -16,7 +16,6 @@ class CommentsTableSeeder extends Seeder {
         $faker = \Faker\Factory::create();
         for ($i = 1; $i <= 100; $i++) {
             \DB::table('comments')->insert([
-                'subject' => $faker->city(),
                 'body' => $faker->realtext(200),
                 'blog_post_id' => $blogPostIds->random(),
                 'sender_email' => $faker->email(),

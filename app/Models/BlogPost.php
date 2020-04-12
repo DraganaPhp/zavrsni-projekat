@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\User;
 use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 
 class BlogPost extends Model {
 
@@ -120,6 +120,11 @@ class BlogPost extends Model {
         return $this->blogPostCategory->name;
     }
     
-   
+   public function CratedAt() {
+        if ($this->created_at) {
+            return Carbon::createFromTimeStamp(strtotime($this->created_at))->diffForHumans();
+        }
+        return '---' ;
+    }
     
 }

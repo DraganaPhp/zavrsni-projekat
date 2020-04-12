@@ -24,6 +24,9 @@ Route::get('/blogs/tag/{tag}', 'BlogPostsController@blogPostsTag')->name('front.
 //Route::post('/blogs/search', 'BlogPostsController@blogPostsSearch')->name('front.blog_posts.blog_posts_search');
 Route::get('/blogs/search', 'BlogPostsController@blogPostsSearch')->name('front.blog_posts.blog_posts_search');
 
+Route::get('/comments/blogPost/{blogPost}}', 'CommentsController@blogPostComments')->name('front.comments.blog_post_comments');
+Route::post('/comments/send-comment', 'CommentsController@sendComment')->name('front.comments.send_comment');
+
 
 Route::get('/contact-us', 'ContactController@index')->name('front.contact.index');
 Route::post('/contact-us/send-message', 'ContactController@sendMessage')->name('front.contact.send_message');
@@ -59,23 +62,6 @@ Route::middleware('auth')->prefix('/admin')->namespace('Admin')->group(function 
         Route::post('/datatable', 'UsersController@datatable')->name('admin.users.datatable');
     });
 
-//Routes for SlidesController
-    /* Route::prefix('/slides')->group(function () {
-
-      Route::get('/', 'SlidesController@index')->name('admin.slides.index'); // /admin/sizes
-      Route::get('/add', 'SlidesController@add')->name('admin.slides.add');
-      Route::post('/insert', 'SlidesController@insert')->name('admin.slides.insert');
-
-      Route::get('/edit/{slide}', 'SlidesController@edit')->name('admin.slides.edit');
-      Route::post('/update/{slide}', 'SlidesController@update')->name('admin.slides.update');
-
-      Route::post('/delete', 'SlidesController@delete')->name('admin.slides.delete');
-      Route::post('/disable-status', 'SlidesController@disableStatus')->name('admin.slides.disable_status');
-      Route::post('/enable-status', 'SlidesController@enableStatus')->name('admin.slides.enable_status');
-      Route::post('/delete-photo/{slide}', 'SlidesController@deletePhoto')->name('admin.slides.delete_photo');
-      Route::post('/datatable', 'SlidesController@datatable')->name('admin.slides.datatable');
-      Route::post('/change-priorities', 'SlidesController@changePriorities')->name('admin.slides.change_priorities');
-      }); */
 
     Route::prefix('/profile')->group(function () {
 
@@ -103,7 +89,7 @@ Route::middleware('auth')->prefix('/admin')->namespace('Admin')->group(function 
         Route::post('/datatable', 'TagsController@datatable')->name('admin.tags.datatable');
     });
 
-    //Routes for SizesController
+    //Routes for SlidesController
     Route::prefix('/slides')->group(function () {
 
         Route::get('/', 'SlidesController@index')->name('admin.slides.index'); // /admin/slides

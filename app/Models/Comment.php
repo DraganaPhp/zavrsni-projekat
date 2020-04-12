@@ -13,7 +13,7 @@ class Comment extends Model {
 
     protected $table = 'comments';
     protected $fillable = [
-        'blog_post_id', 'sender-name', 'body', 'sender-email'
+        'blog_post_id', 'sender_nickname', 'body', 'sender_email'
     ];
 
     public function blogPost() {

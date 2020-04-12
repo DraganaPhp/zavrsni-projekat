@@ -12,7 +12,7 @@
     </header>
     <div class="blog-posts">
         @foreach($mostViewedBlogPosts as $mostViewedBlogPost)
-        <a href="{{route('front.blog_posts.single',['blogPost'=>$mostViewedBlogPost->id])}}">
+        <a href="{{route('front.blog_posts.single',['blogPost'=>$mostViewedBlogPost])}}">
             <div class="item d-flex align-items-center">
                 <div class="image"><img src="{{$mostViewedBlogPost->getPhotoThumbUrl()}}" alt="..." class="img-fluid"></div>
                 <div class="title"><strong>{{$mostViewedBlogPost->subject}}</strong>
@@ -42,7 +42,7 @@
     </header>
     <ul class="list-inline">
         @foreach($tags as $tag)
-        <li class="list-inline-item"><a href="{{route('front.blog_posts.blog_posts_tag',['tag'=>$tag->id])}}" class="tag">#{{$tag->name}} - {{$tag->blogPosts()->count()}}</a></li>
+        <li class="list-inline-item"><a href="{{route('front.blog_posts.blog_posts_tag',['tag'=>$tag])}}" class="tag">#{{$tag->name}} - {{$tag->blogPosts()->count()}}</a></li>
         @endforeach
     </ul>
 </div>
