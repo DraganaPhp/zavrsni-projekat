@@ -12,7 +12,6 @@ use App\Models\Tag;
 use \Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
 
-
 class BlogPostsController extends Controller {
 
     public function index() {
@@ -103,7 +102,7 @@ class BlogPostsController extends Controller {
 
                 $query->where(function ($query) use ($searchTerm) {
 
-                    $query->orWhere('blog_posts.name', 'LIKE', '%' . $searchTerm . '%')
+                    $query->orWhere('blog_posts.subject', 'LIKE', '%' . $searchTerm . '%')
                             ->orWhere('blog_posts.body', 'LIKE', '%' . $searchTerm . '%')
                             ->orWhere('users.name', 'LIKE', '%' . $searchTerm . '%')
                             ->orWhere('blog_post_categories.name', 'LIKE', '%' . $searchTerm . '%')
@@ -342,8 +341,9 @@ class BlogPostsController extends Controller {
         }
     }
 
-    Public function totalViews(){
-        $views= $views + Cache::increment('views_number');
-return $views;
+    Public function totalViews() {
+        $views = $views + Cache::increment('views_number');
+        return $views;
     }
+
 }

@@ -51,8 +51,11 @@ class BlogPostsController extends Controller {
         ]);
     }
 
-    public function single(BlogPost $blogPost) {
+    public function single(BlogPost $blogPost, $seoSlug = null) {
 
+        if ($seoSlug != \Str::slug($blogPost->subject)) {
+            return redirect()->away(route('front.blog_posts.single', ['blogPost' => $blogPost, 'seoSlug' => \Str::slug($blogPost->subject)]));
+        }
         BlogPost::where('id', $blogPost->id)->increment('views');
 
         $blogPostCategories = BlogPostCategory::query()
@@ -90,7 +93,10 @@ class BlogPostsController extends Controller {
         ]);
     }
 
-    public function blogPostsAuthor(BlogPost $blogPost) {
+    public function blogPostsAuthor(BlogPost $blogPost, $seoSlug = null) {
+        if ($seoSlug != \Str::slug($blogPost->user->name)) {
+            return redirect()->away(route('front.blog_posts.blog_posts_author', ['blogPost' => $blogPost, 'seoSlug' => \Str::slug($blogPost->user->name)]));
+        }
         $user = User::query()
                 ->where('id', $blogPost->user->id)
                 ->get();
@@ -133,8 +139,10 @@ class BlogPostsController extends Controller {
         ]);
     }
 
-    public function blogPostsCategory(BlogPost $blogPost) {
-
+    public function blogPostsCategory(BlogPost $blogPost, $seoSlug = null) {
+        if ($seoSlug != \Str::slug($blogPost->blogPostCategory->name)) {
+            return redirect()->away(route('front.blog_posts.blog_posts_category', ['blogPost' => $blogPost, 'seoSlug' => \Str::slug($blogPost->blogPostCategory->name)]));
+        }
         $blogPosts = BlogPost::query()
                 ->with(['blogPostCategory', 'tags', 'user', 'comments'])
                 ->where('blog_post_category_id', $blogPost->blogPostCategory->id)
@@ -174,8 +182,10 @@ class BlogPostsController extends Controller {
         ]);
     }
 
-    public function blogPostsTag(Tag $tag) {
-
+    public function blogPostsTag(Tag $tag, $seoSlug = null) {
+        if ($seoSlug != \Str::slug($tag->name)) {
+            return redirect()->away(route('front.blog_posts.blog_posts_tag', ['tag' => $tag, 'seoSlug' => \Str::slug($tag->name)]));
+        }
         $blogPosts = $tag->blogPosts()->paginate(12);
 
         $blogPostCategories = BlogPostCategory::query()

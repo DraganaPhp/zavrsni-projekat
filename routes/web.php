@@ -17,10 +17,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'IndexController@index')->name('front.index.index');
 ;
 Route::get('/blog-posts', 'BlogPostsController@index')->name('front.blog_posts.index');
-Route::get('/blogs/single/{blogPost}', 'BlogPostsController@single')->name('front.blog_posts.single');
-Route::get('/blogs/author/{blogPost}', 'BlogPostsController@blogPostsAuthor')->name('front.blog_posts.blog_posts_author');
-Route::get('/blogs/category/{blogPost}', 'BlogPostsController@blogPostsCategory')->name('front.blog_posts.blog_posts_category');
-Route::get('/blogs/tag/{tag}', 'BlogPostsController@blogPostsTag')->name('front.blog_posts.blog_posts_tag');
+Route::get('/blogs/single/{blogPost}/{seoSlug?}', 'BlogPostsController@single')->name('front.blog_posts.single');
+Route::get('/blogs/author/{blogPost}/{seoSlug?}', 'BlogPostsController@blogPostsAuthor')->name('front.blog_posts.blog_posts_author');
+Route::get('/blogs/category/{blogPost}/{seoSlug?}', 'BlogPostsController@blogPostsCategory')->name('front.blog_posts.blog_posts_category');
+Route::get('/blogs/tag/{tag}/{seoSlug?}', 'BlogPostsController@blogPostsTag')->name('front.blog_posts.blog_posts_tag');
 //Route::post('/blogs/search', 'BlogPostsController@blogPostsSearch')->name('front.blog_posts.blog_posts_search');
 Route::get('/blogs/search', 'BlogPostsController@blogPostsSearch')->name('front.blog_posts.blog_posts_search');
 

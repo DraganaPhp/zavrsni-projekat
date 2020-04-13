@@ -1,5 +1,8 @@
 @extends('front._layout.layout')
-@section('seo_title', $blogPost->name)
+@section('seo_title', $blogPost->subject)
+@section('seo_description', $blogPost->description)
+@section('seo_image', $blogPost->getPhotoUrl())
+@section('seo_type', 'Blog post')
 @section('content')
 
 <div class="container">
@@ -11,14 +14,14 @@
                     <div class="post-thumbnail"><img src="{{$blogPost->getPhotoUrl()}}" alt="..." class="img-fluid"></div>
                     <div class="post-details">
                         <div class="post-meta d-flex justify-content-between">
-                            <div class="category"><a href="{{route('front.blog_posts.blog_posts_category',['blogPost'=>$blogPost])}}">{{$blogPost->getBlogPostCategoryName()}}</a></div>
+                            <div class="category"><a href="{{route('front.blog_posts.blog_posts_category',['blogPost'=>$blogPost,'seoSlug'=>\Str::slug($blogPost->blogPostCategory->name)])}}">{{$blogPost->getBlogPostCategoryName()}}</a></div>
                         </div>
                         <h1>{{$blogPost->subject}}<a href="#"><i class="fa fa-bookmark-o"></i></a></h1>
-                        <div class="post-footer d-flex align-items-center flex-column flex-sm-row"><a href="{{route('front.blog_posts.blog_posts_author',['blogPost'=>$blogPost->id])}}" class="author d-flex align-items-center flex-wrap">
+                        <div class="post-footer d-flex align-items-center flex-column flex-sm-row"><a href="{{route('front.blog_posts.blog_posts_author',['blogPost'=>$blogPost->id,'seoSlug'=>\Str::slug($blogPost->user->name)])}}" class="author d-flex align-items-center flex-wrap">
                                 <div class="avatar"><img src="{{$blogPost->user->getPhotoUrl()}}" alt="..." class="img-fluid"></div>
                                 <div class="title"><span>{{$blogPost->user->name}}</span></div></a>
                             <div class="d-flex align-items-center flex-wrap">       
-                                <div class="date"><i class="icon-clock"></i>{{$blogPost->CratedAt()}}</div>
+                                <div class="date"><i class="icon-clock"></i>{{$blogPost->CreatedAt()}}</div>
                                 <div class="views"><i class="icon-eye"></i> {{$blogPost->views}}</div>
                                 <div class="comments meta-last"><a href="#post-comments"><i class="icon-comment"></i>{{$blogPost->comments->count()}}</a></div>
                             </div>
@@ -28,7 +31,7 @@
                         </div>
                         <div class="post-tags">
                             @foreach($blogPost->tags as $blogPostTag)
-                            <a href="{{route('front.blog_posts.blog_posts_tag',['tag'=>$blogPostTag->id])}}" class="tag"># {{$blogPostTag->name}}</a>
+                            <a href="{{route('front.blog_posts.blog_posts_tag',['tag'=>$blogPostTag->id,'seoSlug'=>\Str::slug($blogPostTag->name)])}}" class="tag"># {{$blogPostTag->name}}</a>
                             @endforeach
                         </div>
 
@@ -52,9 +55,9 @@
                             @endif
                         </div>
                         <div id='comments'>
-                           
+
                         </div>
-                    
+
                     </div>
                 </div>
             </div>
@@ -73,46 +76,46 @@
 @endsection
 @push('footer_javascript')
 <script type="text/javascript">
-$.ajax({
-            "url": "{{route('front.comments.blog_post_comments',['blogPost'=>$blogPost])}}",
-            "type": "get",
-            "data": {}
-        }).done(function (response) {
+    $.ajax({
+        "url": "{{route('front.comments.blog_post_comments',['blogPost'=>$blogPost])}}",
+        "type": "get",
+        "data": {}
+    }).done(function (response) {
 
-            $('#comments').html(response);
-            console.log('Zavrseno ucitavanje sadrzaja korpe');
-         }).fail(function (jqXHR, textStatus, error) {
+        $('#comments').html(response);
+        console.log('Zavrseno ucitavanje sadrzaja korpe');
+    }).fail(function (jqXHR, textStatus, error) {
 
         console.log('Greska prilikom ucitavanja sadrzaja korpe');
     });
-    
-    
-    
-    
-   /*$('#main_contact_form').on('click', '[data-action="send-comment"]', function (e) {
-        e.preventDefault();
-
-        let sender_nickname = $(this).attr('data-name'); 
-        let sender_email = $(this).attr('data-email'); 
-        let body = $(this).attr('data-body');
 
 
-        $.ajax({
-            "url": "{{route('front.comments.send_comment',['blogPost'=>$blogPost])}}",
-            "type": "post",
-            "data": {
-                "_token": "{{csrf_token()}}",
-                "sender_nickname": sender_nickname,
-                "sender_email": sender_email,
-                "body": body
-            }
-        }).done(function (response) {
 
-            toastr.success(response.system_message);
 
-        }).fail(function () {
-            toastr.error('An error ocured');
-        });
-    });*/
+    /*$('#main_contact_form').on('click', '[data-action="send-comment"]', function (e) {
+     e.preventDefault();
+     
+     let sender_nickname = $(this).attr('data-name'); 
+     let sender_email = $(this).attr('data-email'); 
+     let body = $(this).attr('data-body');
+     
+     
+     $.ajax({
+     "url": "{{route('front.comments.send_comment',['blogPost'=>$blogPost])}}",
+     "type": "post",
+     "data": {
+     "_token": "{{csrf_token()}}",
+     "sender_nickname": sender_nickname,
+     "sender_email": sender_email,
+     "body": body
+     }
+     }).done(function (response) {
+     
+     toastr.success(response.system_message);
+     
+     }).fail(function () {
+     toastr.error('An error ocured');
+     });
+     });*/
 </script>
 @endpush

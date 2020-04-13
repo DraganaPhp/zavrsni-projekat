@@ -5,17 +5,17 @@
             <div class="content">
                 <header class="post-header">
                     <div class="category">
-                        <a href="{{route('front.blog_posts.blog_posts_category',['blogPost'=>$blogPost->id])}}">
+                        <a href="{{route('front.blog_posts.blog_posts_category',['blogPost'=>$blogPost->id,'seoSlug'=>\Str::slug($blogPost->blogPostCategory->name)])}}">
                             {{$blogPost->blogPostCategory->name}}
                         </a>
                     </div>
-                    <a href="{{route('front.blog_posts.single',['blogPost'=>$blogPost->id])}}">
+                    <a href="{{route('front.blog_posts.single',['blogPost'=>$blogPost, 'seoSlug'=>\Str::slug($blogPost->subject)])}}">
                         <h2 class="h4">{{$blogPost->subject}}</h2>
                     </a>
                 </header>
                 <p>{{$blogPost->description}}</p>
                 <footer class="post-footer d-flex align-items-center">
-                    <a href="{{route('front.blog_posts.blog_posts_author',['blogPost'=>$blogPost->id])}}" class="author d-flex align-items-center flex-wrap">
+                    <a href="{{route('front.blog_posts.blog_posts_author',['blogPost'=>$blogPost->id,'seoSlug'=>\Str::slug($blogPost->user->name)])}}" class="author d-flex align-items-center flex-wrap">
                         <div class="avatar">
                             <img src="{{$blogPost->user->getPhotoUrl()}}" alt="..." class="img-fluid">
                         </div>
@@ -42,15 +42,15 @@
             <div class="content">
                 <header class="post-header">
                     <div class="category">
-                        <a href="{{route('front.blog_posts.blog_posts_category',['blogPost'=>$blogPost->id])}}">{{$blogPost->blogPostCategory->name}}</a>
+                        <a href="{{route('front.blog_posts.blog_posts_category',['blogPost'=>$blogPost->id,'seoSlug'=>\Str::slug($blogPost->blogPostCategory->name)])}}">{{$blogPost->blogPostCategory->name}}</a>
                     </div>
-                    <a href="{{route('front.blog_posts.single',['blogPost'=>$blogPost->id])}}">
+                    <a href="{{route('front.blog_posts.single',['blogPost'=>$blogPost->id,'seoSlug'=>\Str::slug($blogPost->subject)])}}">
                         <h2 class="h4">{{$blogPost->subject}}</h2>
                     </a>
                 </header>
                 <p>{{$blogPost->description}}</p>
                 <footer class="post-footer d-flex align-items-center">
-                    <a href="{{route('front.blog_posts.blog_posts_author',['blogPost'=>$blogPost->id])}}" class="author d-flex align-items-center flex-wrap">
+                    <a href="{{route('front.blog_posts.blog_posts_author',['blogPost'=>$blogPost->id,'seoSlug'=>\Str::slug($blogPost->user->name)])}}" class="author d-flex align-items-center flex-wrap">
                         <div class="avatar"><img src="{{$blogPost->user->getPhotoUrl()}}" alt="..." class="img-fluid"></div>
                         <div class="title"><span>{{$blogPost->user->name}}</span></div>
                     </a>

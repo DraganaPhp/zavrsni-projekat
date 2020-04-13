@@ -57,9 +57,9 @@
                     <h3 class="h6">Latest Posts</h3>
                 </header>
                 <div class="blog-posts">
-                    @foreach($latestBlogPosts as $latestBlogPost)
-                    @include('front.contact.partials.latest_posts', [
-                    'latestBlogPost' => $latestBlogPost]
+                    @foreach($mostViewedBlogPosts as $mostViewedBlogPost)
+                    @include('front.contact.partials.most_viewed_blog_posts', [
+                    'mostViewedBlogPost' => $mostViewedBlogPost]
                     )
                     @endforeach
 

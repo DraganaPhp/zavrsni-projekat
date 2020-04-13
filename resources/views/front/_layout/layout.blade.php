@@ -3,7 +3,25 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>@yield('seo_title')</title>
+
+        <title>@yield('seo_title', __('Selected Blog Posts')) | Blog Post</title>
+        <meta name="description" content="@yield('seo_description', __('Read posts for most popular themes'))">
+        <meta property="og:site_name" content="{{config('app.name')}}">
+        <meta property="og:site_type" content="@yield('seo_type', __('Blog post'))">
+        <meta property="og:title" content="@yield('seo_title', __('Selected Blog Posts')) | Blog Post">
+        <meta property="og:description" content="@yield('seo_description', __('Read posts for most popular themes'))">
+        <meta property="og:image" content="@yield('seo_image',url('/themes/front/img/logo.png'))">
+        <meta property="og:url" content="{{url()->current()}}">
+        
+        
+        
+        <meta name="twitter:card" content="{{config('app.name')}}">
+        <meta name="twitter:title" content="@yield('seo_title', __('Selected Blog Posts')) | Blog Post">
+        <meta name="twitter:description" content="@yield('seo_description', __('Read posts for most popular themes'))">
+        <meta name="twitter:image" content="@yield('seo_image',url('/themes/front/img/logo.png'))">
+        
+        
+         
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="all,follow">
@@ -81,20 +99,20 @@
         <script src="{{url('/themes/front/js/front.js')}}"></script>
         <script src="{{url('/themes/front/plugins/owl-carousel2/owl.carousel.min.js')}}"></script>
         <script>
-    $("#index-slider").owlCarousel({
-    "items": 1,
-            "loop": true,
-            "autoplay": true,
-            "autoplayHoverPause": true
-    });
-    $("#latest-posts-slider").owlCarousel({
-    "items": 1,
-            "loop": true,
-            "autoplay": true,
-            "autoplayHoverPause": true
-    });
+            $("#index-slider").owlCarousel({
+            "items": 1,
+                    "loop": true,
+                    "autoplay": true,
+                    "autoplayHoverPause": true
+            });
+            $("#latest-posts-slider").owlCarousel({
+            "items": 1,
+                    "loop": true,
+                    "autoplay": true,
+                    "autoplayHoverPause": true
+            });
         </script>
-        
+
         @stack('footer_javascript')
     </body>
 </html>

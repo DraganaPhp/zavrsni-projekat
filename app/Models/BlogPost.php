@@ -112,19 +112,19 @@ class BlogPost extends Model {
         }
         return $this->blogPostCategory->name;
     }
- 
+
     public function getBlogPostCategory() {
         if (!$this->blogPostCategory) {
             return 'Uncategorized';
         }
         return $this->blogPostCategory->name;
     }
-    
-   public function CratedAt() {
+
+    public function CreatedAt() {
         if ($this->created_at) {
             return Carbon::createFromTimeStamp(strtotime($this->created_at))->diffForHumans();
         }
-        return '---' ;
+        return '---';
     }
-    
+
 }

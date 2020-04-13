@@ -37,7 +37,7 @@
             <div class="col-md-4">
                 <div class="latest-posts">
                 @foreach($latestBlogPosts as $latestBlogPost)
-                <a href="{{route('front.blog_posts.single',['blogPost'=>$latestBlogPost->id])}}">
+                <a href="{{route('front.blog_posts.single',['blogPost'=>$latestBlogPost->id,'seoSlug'=>\Str::slug($latestBlogPost->subject)])}}">
                         <div class="post d-flex align-items-center">
                             <div class="image"><img src="{{$latestBlogPost->getPhotoThumbUrl()}}" alt="..." class="img-fluid"></div>
                             <div class="title"><strong>{{$latestBlogPost->subject}}</strong><span class="date last-meta">{{$latestBlogPost->created_at->format('F d, Y')}}</span></div>

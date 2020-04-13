@@ -18,6 +18,9 @@ class ContactController extends Controller {
                 ->limit(3)
                 ->get();
 
+        $mostViewedBlogPosts = BlogPost::query()->
+                        orderby('views', 'DESC')
+                        ->limit(3)->get();
         $blogPostCategories = BlogPostCategory::query()
                 ->orderBy('priority')
                 ->limit(4)
@@ -26,12 +29,12 @@ class ContactController extends Controller {
         return view('front.contact.index', [
             'systemMessage' => $systemMessage,
             'latestBlogPosts' => $latestBlogPosts,
+            'mostViewedBlogPosts' => $mostViewedBlogPosts,
             'blogPostCategories' => $blogPostCategories,
         ]);
     }
 
     public function sendMessage(Request $request) {
-
 
 
         $formData = $request->validate([

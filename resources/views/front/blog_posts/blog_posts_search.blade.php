@@ -1,6 +1,6 @@
 @extends('front._layout.layout')
 
-@section('seo_title', 'Blog Posts for Searc Term')
+@section('seo_title', 'Blog Posts for Search Term')
 
 @section('content')
 
