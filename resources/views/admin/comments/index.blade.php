@@ -183,15 +183,18 @@
 @push('footer_javascript')
 <script type="text/javascript">
 
-    $('#entities-filter-form [blog_post_subject]').on('change keyup', function (e) {
+    $('#entities-filter-form [name="blog_post_subject"]').on('change keyup', function (e) {
         $('#entities-filter-form').trigger('submit');
     });
 
-    $('#entities-filter-form [sender_nickname]').on('change keyup', function (e) {
+    $('#entities-filter-form [name="sender_nickname"]').on('change keyup', function (e) {
         $('#entities-filter-form').trigger('submit');
     });
 
-    $('#entities-filter-form [sender_email]').on('change keyup', function (e) {
+    $('#entities-filter-form [name="sender_email"]').on('change keyup', function (e) {
+        $('#entities-filter-form').trigger('submit');
+    });
+    $('#entities-filter-form [name="status"]').on('change', function (e) {
         $('#entities-filter-form').trigger('submit');
     });
 

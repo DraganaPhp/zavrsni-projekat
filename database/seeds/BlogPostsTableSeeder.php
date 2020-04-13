@@ -27,6 +27,7 @@ class BlogPostsTableSeeder extends Seeder {
                 'description' => $faker->realtext(150),
                 'blog_post_category_id' => $blogPostCategoryIds->random(),
                 'user_id' => $userIds->random(),
+                'on_index_page' => rand(0,1),
                 'created_at' => $faker->dateTimeBetween($startDate = '-6 months', $endDate = 'now', $timezone = null),
                 'updated_at' => $faker->dateTimeBetween($startDate = '-6 months', $endDate = 'now', $timezone = null),
                 'views' => rand(0, 1024),
