@@ -26,9 +26,9 @@ return array(
     |    ]
     */
    'disks' =>[
-		'file_manager' => 
-			['URL' => '/storage/file_manager']
-		]
+		'file-manager' => 
+			['URL' => '/storage/file-manager']
+		],
 
     /*
     |--------------------------------------------------------------------------

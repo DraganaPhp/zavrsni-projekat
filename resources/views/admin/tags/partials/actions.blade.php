@@ -1,5 +1,5 @@
 <div class="btn-group">
-    <a href=# class="btn btn-info" target="_blank" title="View Blog posts for this tag">
+    <a href="{{route('front.blog_posts.blog_posts_tag',['tag'=>$tag->id])}}" class="btn btn-info" target="_blank" title="View Blog posts for this tag">
         <i class="fas fa-info-circle"></i>
     </a>
     <a href="{{route('admin.tags.edit',['tag'=>$tag->id])}}" class="btn btn-info" title="Edit Tag">

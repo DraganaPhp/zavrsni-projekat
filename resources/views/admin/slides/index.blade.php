@@ -91,12 +91,13 @@
                                     <td class="text-center">{{$slide->created_at}}</td>
                                     <td class="text-center">
                                         <div class="btn-group">
-                                            <a href=# class="btn btn-info" target="_blank">
+                                            <a href={{route('front.index.index')}} class="btn btn-info" target="_blank" title="View index page">
                                                 <i class="fas fa-eye"></i>
                                             </a>
                                             <a 
                                                 href="{{route('admin.slides.edit', ['slide' => $slide->id])}}" 
                                                 class="btn btn-info"
+                                                title="Edit slide"
                                                 >
                                                 <i class="fas fa-edit"></i>
                                             </a>
@@ -108,6 +109,7 @@
                                                 data-action="delete"
                                                 data-id="{{$slide->id}}"
                                                 data-name="{{$slide->subject}}"
+                                                title="Delete slide"
                                                 >
                                                 <i class="fas fa-trash"></i>
                                             </button>
@@ -120,6 +122,7 @@
                                                 data-action="disable"
                                                 data-id="{{$slide->id}}"
                                                 data-name="{{$slide->subject}}"
+                                                title="Disable slide"
                                                 >
                                                 <i class="fas fa-minus-circle"></i>
                                             </button>
@@ -133,6 +136,7 @@
                                                 data-action="enable"
                                                 data-id="{{$slide->id}}"
                                                 data-name="{{$slide->subject}}"
+                                                title="Enable slide"
                                                 >
                                                 <i class="fas fa-check"></i>
                                             </button>

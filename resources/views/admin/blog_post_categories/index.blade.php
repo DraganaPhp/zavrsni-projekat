@@ -84,10 +84,10 @@
                                     <td class="text-center">{{$blogPostCategory->updated_at}}</td>
                                     <td class="text-center">
                                         <div class="btn-group">
-                                            <a href=# class="btn btn-info" target="_blank">
+                                            <a href="{{route('front.blog_posts.blog_posts_category',['blogPost'=>$blogPostCategory->blog_posts()->first()])}}" class="btn btn-info" target="_blank" title="View Blog posts for this category">
                                                 <i class="fas fa-eye"></i>
                                             </a>
-                                            <a href="{{route('admin.blog_post_categories.edit',['blogPostCategory' =>$blogPostCategory->id])}}" class="btn btn-info">
+                                            <a href="{{route('admin.blog_post_categories.edit',['blogPostCategory' =>$blogPostCategory->id])}}" class="btn btn-info" title="Edit category">
                                                 <i class="fas fa-edit"></i>
                                             </a>
                                             <button 
@@ -95,7 +95,7 @@
                                                 class="btn btn-info" 
                                                 data-toggle="modal" 
                                                 data-target="#delete-modal"
-
+                                                title="Delete category"
                                                 data-action="delete"
                                                 data-id ="{{$blogPostCategory->id}}"
                                                 data-name="{{$blogPostCategory->name}}"

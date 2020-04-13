@@ -85,6 +85,34 @@ $.ajax({
 
         console.log('Greska prilikom ucitavanja sadrzaja korpe');
     });
+    
+    
+    
+    
+   /*$('#main_contact_form').on('click', '[data-action="send-comment"]', function (e) {
+        e.preventDefault();
 
+        let sender_nickname = $(this).attr('data-name'); 
+        let sender_email = $(this).attr('data-email'); 
+        let body = $(this).attr('data-body');
+
+
+        $.ajax({
+            "url": "{{route('front.comments.send_comment',['blogPost'=>$blogPost])}}",
+            "type": "post",
+            "data": {
+                "_token": "{{csrf_token()}}",
+                "sender_nickname": sender_nickname,
+                "sender_email": sender_email,
+                "body": body
+            }
+        }).done(function (response) {
+
+            toastr.success(response.system_message);
+
+        }).fail(function () {
+            toastr.error('An error ocured');
+        });
+    });*/
 </script>
 @endpush

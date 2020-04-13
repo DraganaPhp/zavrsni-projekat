@@ -9,7 +9,7 @@
         </div>
         <div class="post-details">
             <div class="post-meta d-flex justify-content-between">
-                <div class="date meta-last">20 May | 2016</div>
+                <div class="date meta-last">{{$blogPost->created_at->format('d F | Y')}}</div>
                 <div class="category"><a href="{{route('front.blog_posts.blog_posts_category',['blogPost'=>$blogPost])}}">{{$blogPost->getBlogPostCategoryName()}}</a></div>
             </div>
             <a href="{{route('front.blog_posts.single',['blogPost'=>$blogPost])}}">

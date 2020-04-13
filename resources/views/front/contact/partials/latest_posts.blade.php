@@ -7,4 +7,4 @@
                 <div class="comments"><i class="icon-comment"></i>{{$latestBlogPost->comments->count()}}</div>
             </div>
         </div>
-    </div></a>,
+    </div></a>

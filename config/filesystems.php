@@ -50,10 +50,9 @@ return [
 
         'public' => [
             'driver' => 'local',
-            'root' => public_path('/storage/file_manager'),
-            'url' => '/storage/file_manager',
+            'root' => public_path('/storage/file-manager'),
+            'url' => '/storage/file-manager',
             'visibility' => 'public',
-        ],
         ],
 
         's3' => [

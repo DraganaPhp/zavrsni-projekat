@@ -15,19 +15,23 @@ class CommentsController extends Controller {
             'comments'=>$comments
                 ]);
     }
-
+public function addComment(Request $request, blogPost $blogPost) {
+        return view('front.comments.blog_posts_comments', [
+            'blogPost'=>$blogPost,
+                ]);
+}
+       
     public function sendComment(Request $request, blogPost $blogPost) {
-
-
+dd($blogPost->subject);
         $formData = $request->validate([
             'sender_nickname' => ['required', 'string', 'min:2', 'max:255'],
             'sender_email' => ['required', 'email', 'max:255'],
             'body' => ['required', 'string', 'min:10', 'max:255'],
+            'blog_post_id' => ['required', 'numeric', 'exists:blog_posts,id'],
         ]);
         
         $newComment = new Comment();
         $newComment->fill($formData);
-        $newComment->blog_post_id=$blogPost->id;
         $newComment->save();
         session()->flash('system_message', __('Your comment has been saved!'));
 

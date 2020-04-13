@@ -40,6 +40,7 @@
                     class="form-control  @if($errors->has('contact_message')) is-invalid @endif">{{old('contact_message')}}</textarea>
                      @include('front._layout.partials.form_errors', ['fieldName'=>'contact_message'])
             </div>
+            
             <div class="form-group col-md-12">
                 <button 
                     type="submit" 

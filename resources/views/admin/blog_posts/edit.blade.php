@@ -202,7 +202,7 @@
 <script type="text/javascript">
      $('#entity-form [name="body"]').ckeditor({
         "height":"400px",
-        "filebrowserBrowseUrl":"{{route('elfinder.ckeditor')}}"
+        "filebrowserBrowseUrl": "{{route('elfinder.ckeditor')}}"
     });
     
     $('#entity-form').on('click', '[data-action="delete-photo"]', function (e) {

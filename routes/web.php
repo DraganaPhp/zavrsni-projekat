@@ -25,7 +25,7 @@ Route::get('/blogs/tag/{tag}', 'BlogPostsController@blogPostsTag')->name('front.
 Route::get('/blogs/search', 'BlogPostsController@blogPostsSearch')->name('front.blog_posts.blog_posts_search');
 
 Route::get('/comments/blogPost/{blogPost}}', 'CommentsController@blogPostComments')->name('front.comments.blog_post_comments');
-Route::post('/comments/send-comment', 'CommentsController@sendComment')->name('front.comments.send_comment');
+Route::post('/comments/send-comment}', 'CommentsController@sendComment')->name('front.comments.send_comment');
 
 
 Route::get('/contact-us', 'ContactController@index')->name('front.contact.index');
