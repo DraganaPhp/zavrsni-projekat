@@ -23,7 +23,7 @@
         <h3 class="h6">Leave a reply</h3>
     </header>
     <form 
-        action="{{route('front.comments.send_comment')}}"
+        action="{{route('front.comments.send_comment',['blogPost'=>$blogPost])}}"
         method="post" 
         role="form" 
         id="main_contact_form"

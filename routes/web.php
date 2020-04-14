@@ -21,11 +21,10 @@ Route::get('/blogs/single/{blogPost}/{seoSlug?}', 'BlogPostsController@single')-
 Route::get('/blogs/author/{blogPost}/{seoSlug?}', 'BlogPostsController@blogPostsAuthor')->name('front.blog_posts.blog_posts_author');
 Route::get('/blogs/category/{blogPost}/{seoSlug?}', 'BlogPostsController@blogPostsCategory')->name('front.blog_posts.blog_posts_category');
 Route::get('/blogs/tag/{tag}/{seoSlug?}', 'BlogPostsController@blogPostsTag')->name('front.blog_posts.blog_posts_tag');
-//Route::post('/blogs/search', 'BlogPostsController@blogPostsSearch')->name('front.blog_posts.blog_posts_search');
 Route::get('/blogs/search', 'BlogPostsController@blogPostsSearch')->name('front.blog_posts.blog_posts_search');
 
-Route::get('/comments/blogPost/{blogPost}}', 'CommentsController@blogPostComments')->name('front.comments.blog_post_comments');
-Route::post('/comments/send-comment}', 'CommentsController@sendComment')->name('front.comments.send_comment');
+Route::get('/comments/blogPost/{blogPost}', 'CommentsController@blogPostComments')->name('front.comments.blog_post_comments');
+Route::post('/comments/send-comment/{blogPost}', 'CommentsController@sendComment')->name('front.comments.send_comment');
 
 
 Route::get('/contact-us', 'ContactController@index')->name('front.contact.index');
