@@ -188,8 +188,15 @@
 @endsection
 
 @push('footer_javascript')
+<script src="/themes/admin/plugins/ckeditor/ckeditor.js" type="text/javascript"></script>
+<script src="/themes/admin/plugins/ckeditor/adapters/jquery.js" type="text/javascript"></script>
+<script src="/themes/admin/plugins/ckeditor/ckeditor.js" type="text/javascript"></script>
+<script src="/themes/admin/plugins/ckeditor/ckeditor.js" type="text/javascript"></script>
 <script type="text/javascript">
-
+    $('#entity-form [name="body"]').ckeditor({
+        "height": "400px",
+        "filebrowserBrowseUrl": "{{route('elfinder.ckeditor')}}"
+    });
     //select name=blog_post_category_id
     $('#entity-form [name="blog_post_category_id"]').select2({
         "theme": "bootstrap4",
