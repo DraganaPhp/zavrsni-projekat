@@ -22,8 +22,14 @@
                             <div class="post-meta d-flex justify-content-between">
                                 <div class="date meta-last">{{$blogPost->created_at->format('d F | Y')}}</div>
                                 <div class="category">
-                                    <a href="{{route('front.blog_posts.blog_posts_category',['blogPost'=>$blogPost->id,'seoSlug'=>\Str::slug($blogPost->blogPostCategory->name)])}}">
+                                    @if($blogPost->blogPostCategory)
+                                    <a href="{{route('front.blog_posts.blog_posts_category',['blogPost'=>$blogPost->id,'seoSlug'=>\Str::slug($blogPost->getBlogPostCategoryName())])}}">
                                         {{$blogPost->getBlogPostCategoryName()}}
+                                        @else
+                                        
+                                        {{$blogPost->getBlogPostCategoryName()}}
+                                        
+                                        @endif
                                     </a>
                                 </div>
                             </div>

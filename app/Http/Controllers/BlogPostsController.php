@@ -140,46 +140,50 @@ class BlogPostsController extends Controller {
     }
 
     public function blogPostsCategory(BlogPost $blogPost, $seoSlug = null) {
-        if ($seoSlug != \Str::slug($blogPost->blogPostCategory->name)) {
-            return redirect()->away(route('front.blog_posts.blog_posts_category', ['blogPost' => $blogPost, 'seoSlug' => \Str::slug($blogPost->blogPostCategory->name)]));
+
+        if ($blogPost->blogPostCategory) {
+
+            if ($seoSlug != \Str::slug($blogPost->getBlogPostCategoryName())) {
+                return redirect()->away(route('front.blog_posts.blog_posts_category', ['blogPost' => $blogPost, 'seoSlug' => \Str::slug($blogPost->getBlogPostCategoryName())]));
+            }
+            $blogPosts = BlogPost::query()
+                    ->with(['blogPostCategory', 'tags', 'user', 'comments'])
+                    ->where('blog_post_category_id', $blogPost->blogPostCategory->id)
+                    ->orderBy('created_at', 'DESC')
+                    ->paginate(12);
+
+
+            $blogPostCategories = BlogPostCategory::query()
+                    ->orderBy('priority')
+                    ->limit(4)
+                    ->get();
+
+            $tags = Tag::query()
+                    ->withCount('blogPosts')->orderBy('blog_posts_count', 'desc')
+                    ->get();
+
+            $latestBlogPosts = BlogPost::query()
+                    ->with(['blogPostCategory', 'tags', 'user', 'comments'])
+                    ->where('status', 1)
+                    ->orderBy('created_at', 'DESC')
+                    ->limit(3)
+                    ->get();
+
+
+            $mostViewedBlogPosts = BlogPost::query()->
+                            orderby('views', 'DESC')
+                            ->limit(3)->get();
+
+
+            return view('front.blog_posts.blog_posts_category', [
+                'blogPosts' => $blogPosts,
+                'blogPost' => $blogPost,
+                'mostViewedBlogPosts' => $mostViewedBlogPosts,
+                'blogPostCategories' => $blogPostCategories,
+                'latestBlogPosts' => $latestBlogPosts,
+                'tags' => $tags,
+            ]);
         }
-        $blogPosts = BlogPost::query()
-                ->with(['blogPostCategory', 'tags', 'user', 'comments'])
-                ->where('blog_post_category_id', $blogPost->blogPostCategory->id)
-                ->orderBy('created_at', 'DESC')
-                ->paginate(12);
-
-
-        $blogPostCategories = BlogPostCategory::query()
-                ->orderBy('priority')
-                ->limit(4)
-                ->get();
-
-        $tags = Tag::query()
-                ->withCount('blogPosts')->orderBy('blog_posts_count', 'desc')
-                ->get();
-
-        $latestBlogPosts = BlogPost::query()
-                ->with(['blogPostCategory', 'tags', 'user', 'comments'])
-                ->where('status', 1)
-                ->orderBy('created_at', 'DESC')
-                ->limit(3)
-                ->get();
-
-
-        $mostViewedBlogPosts = BlogPost::query()->
-                        orderby('views', 'DESC')
-                        ->limit(3)->get();
-
-
-        return view('front.blog_posts.blog_posts_category', [
-            'blogPosts' => $blogPosts,
-            'blogPost' => $blogPost,
-            'mostViewedBlogPosts' => $mostViewedBlogPosts,
-            'blogPostCategories' => $blogPostCategories,
-            'latestBlogPosts' => $latestBlogPosts,
-            'tags' => $tags,
-        ]);
     }
 
     public function blogPostsTag(Tag $tag, $seoSlug = null) {
@@ -230,7 +234,8 @@ class BlogPostsController extends Controller {
                 ->orWhere('blog_posts.subject', 'LIKE', '%' . $searchTerm . '%')
                 ->orWhere('blog_posts.description', 'LIKE', '%' . $searchTerm . '%')
                 ->orWhere('blog_posts.body', 'LIKE', '%' . $searchTerm . '%')
-                ->paginate(4);
+                ->orderBy('created_at', 'DESC')
+                ->paginate(12);
 
         $blogPostCategories = BlogPostCategory::query()
                 ->orderBy('priority')

@@ -5,8 +5,8 @@
             <div class="content">
                 <header class="post-header">
                     <div class="category">
-                        <a href="{{route('front.blog_posts.blog_posts_category',['blogPost'=>$blogPost->id,'seoSlug'=>\Str::slug($blogPost->blogPostCategory->name)])}}">
-                            {{$blogPost->blogPostCategory->name}}
+                        <a href="{{route('front.blog_posts.blog_posts_category',['blogPost'=>$blogPost->id,'seoSlug'=>\Str::slug($blogPost->getBlogPostCategoryName())])}}">
+                            {{$blogPost->getBlogPostCategoryName()}}
                         </a>
                     </div>
                     <a href="{{route('front.blog_posts.single',['blogPost'=>$blogPost, 'seoSlug'=>\Str::slug($blogPost->subject)])}}">
@@ -42,7 +42,14 @@
             <div class="content">
                 <header class="post-header">
                     <div class="category">
-                        <a href="{{route('front.blog_posts.blog_posts_category',['blogPost'=>$blogPost->id,'seoSlug'=>\Str::slug($blogPost->blogPostCategory->name)])}}">{{$blogPost->blogPostCategory->name}}</a>
+                        @if($blogPost->blogPostCategory)
+                        <a href="{{route('front.blog_posts.blog_posts_category',['blogPost'=>$blogPost->id,'seoSlug'=>\Str::slug($blogPost->getBlogPostCategoryName())])}}">
+                            {{$blogPost->getBlogPostCategoryName()}}
+                            @else
+
+                            {{$blogPost->getBlogPostCategoryName()}}
+
+                            @endif
                     </div>
                     <a href="{{route('front.blog_posts.single',['blogPost'=>$blogPost->id,'seoSlug'=>\Str::slug($blogPost->subject)])}}">
                         <h2 class="h4">{{$blogPost->subject}}</h2>

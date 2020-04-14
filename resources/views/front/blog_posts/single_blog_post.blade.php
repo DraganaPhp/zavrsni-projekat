@@ -14,7 +14,15 @@
                     <div class="post-thumbnail"><img src="{{$blogPost->getPhotoUrl()}}" alt="..." class="img-fluid"></div>
                     <div class="post-details">
                         <div class="post-meta d-flex justify-content-between">
-                            <div class="category"><a href="{{route('front.blog_posts.blog_posts_category',['blogPost'=>$blogPost,'seoSlug'=>\Str::slug($blogPost->blogPostCategory->name)])}}">{{$blogPost->getBlogPostCategoryName()}}</a></div>
+                            <div class="category">
+                                 @if($blogPost->blogPostCategory)
+                <a href="{{route('front.blog_posts.blog_posts_category',['blogPost'=>$blogPost,'seoSlug'=>\Str::slug($blogPost->getBlogPostCategoryName())])}}">{{$blogPost->getBlogPostCategoryName()}}</a>
+                @else
+                {{$blogPost->getBlogPostCategoryName()}}
+
+                @endif
+                                
+                            </div>
                         </div>
                         <h1>{{$blogPost->subject}}<a href="#"><i class="fa fa-bookmark-o"></i></a></h1>
                         <div class="post-footer d-flex align-items-center flex-column flex-sm-row"><a href="{{route('front.blog_posts.blog_posts_author',['blogPost'=>$blogPost->id,'seoSlug'=>\Str::slug($blogPost->user->name)])}}" class="author d-flex align-items-center flex-wrap">

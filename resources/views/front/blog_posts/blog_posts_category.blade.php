@@ -8,7 +8,7 @@
         <!-- Latest Posts -->
         <main class="posts-listing col-lg-8"> 
             <div class="container">
-                <h2 class="mb-3">Category "{{$blogPost->blogPostCategory->name}}"</h2>
+                <h2 class="mb-3">Category "{{$blogPost->getBlogPostCategoryName()}}"</h2>
                 @include('front.blog_posts.partials.listed_blog_posts')
             </div>
         </main>

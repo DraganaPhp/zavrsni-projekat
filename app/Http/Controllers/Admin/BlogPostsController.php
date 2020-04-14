@@ -91,7 +91,7 @@ class BlogPostsController extends Controller {
         ;
 
 
-        $dataTable->rawColumns(['on_index_page', 'status', 'subject', 'photo', 'actions', 'created_at']);
+        $dataTable->rawColumns(['on_index_page','blog_post_category_name', 'status', 'subject', 'photo', 'actions', 'created_at']);
 
         $dataTable->filter(function ($query) use ($request, $searchFilters) {
 
@@ -156,7 +156,7 @@ class BlogPostsController extends Controller {
 
     public function insert(Request $request) {
         $formData = $request->validate([
-            'blog_post_category_id' => ['required', 'numeric', 'max:10', 'exists:blog_post_categories,id'],
+            'blog_post_category_id' => ['nullable', 'numeric', 'max:10', 'exists:blog_post_categories,id'],
             'subject' => ['required', 'string', 'max:255', 'unique:blog_posts,subject'],
             'body' => ['nullable', 'string', 'max:1000'],
             'tag_id' => ['required', 'array', 'exists:tags,id'],

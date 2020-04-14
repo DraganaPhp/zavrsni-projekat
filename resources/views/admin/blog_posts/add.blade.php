@@ -204,7 +204,7 @@
     $('#entity-form').validate({
         rules: {
             "blog_post_category_id": {
-                "required": true
+                "required": false
             },
             "tag_id": {
                 "required": true
